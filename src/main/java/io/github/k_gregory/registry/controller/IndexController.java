@@ -4,11 +4,11 @@ package io.github.k_gregory.registry.controller;
 import io.github.k_gregory.registry.model.Comment;
 import io.github.k_gregory.registry.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class IndexController {
     private final CommentRepository comments;
 
@@ -17,13 +17,20 @@ public class IndexController {
         this.comments = comments;
     }
 
-    @RequestMapping("/")
-    @ResponseBody
-    Iterable<Comment> index(){
-        Comment comment = new Comment();
-        comment.value = "Ololo";
-        comments.save(comment);
-
+    @ModelAttribute("comments")
+    Iterable<Comment> modelComments(){
         return comments.findAll();
+    }
+
+    @PostMapping("/")
+    String addComment(Model model, Comment comment){
+        comments.save(comment);
+        return "redirect:/";
+    }
+
+    @GetMapping("/")
+    String index(Model model){
+        model.addAttribute("comment", new Comment());
+        return "index";
     }
 }
