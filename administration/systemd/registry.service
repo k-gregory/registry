@@ -1,0 +1,8 @@
+[Unit]
+Description=Registry for KPI
+[Service]
+ExecStart=/home/registry/start-server.sh
+Type=simple
+User=registry
+[Install]
+WantedBy=multi-user.target
