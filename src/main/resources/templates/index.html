@@ -7,11 +7,11 @@
 <body>
 
 <ul th:each="comment: ${comments}">
-    <li th:text="${comment.value}"></li>
+    <li th:text="${comment.message}"></li>
 </ul>
 
 <form th:action="@{/}" th:object="${comment}" method="post">
-    <input type="text" th:field="*{value}" title="Comment:"/>
+    <input type="text" th:field="*{message}" title="Comment:"/>
     <input type="submit" value="Submit!"/>
 </form>
 

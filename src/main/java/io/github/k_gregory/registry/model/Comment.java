@@ -5,25 +5,25 @@ import javax.persistence.*;
 @Entity
 @Table(name = "comment")
 public class Comment {
-    private Integer id;
-    private String value;
+    private Long id;
+    private String message;
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Id @Column(name = "id")
-    public Integer getId() {
+    @Id @Column(name = "id", nullable = false)
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    @Column(name = "value")
-    public String getValue() {
-        return value;
+    @Column(name = "message", nullable = false)
+    public String getMessage() {
+        return message;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

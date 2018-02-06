@@ -1,0 +1,4 @@
+create TABLE comment(
+  id BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
+  message VARCHAR(1000) NOT NULL
+);
