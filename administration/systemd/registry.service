@@ -4,5 +4,7 @@ Description=Registry for KPI
 ExecStart=/home/registry/start-server.sh
 Type=simple
 User=registry
+Restart=always
+RestartSec=3
 [Install]
 WantedBy=multi-user.target
