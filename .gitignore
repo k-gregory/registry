@@ -4,3 +4,4 @@ registry.iml
 out
 build
 !gradle-wrapper.jar
+*.retry

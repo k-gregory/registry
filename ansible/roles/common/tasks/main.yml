@@ -1,0 +1,65 @@
+- name: Ensure SSL certificates exist
+  file: path="/etc/ssl/{{ item }}" state=file
+  with_items: [gregory-k.me.crt, gregory-k.me.key]
+
+- name: Install nginx and JDK
+  apt: name="{{item}}" state=present
+  with_items:
+    - nginx
+    - openjdk-8-jdk
+
+- name: Disable default nginx site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+        
+- name: Create user for running backend
+  user:
+    name: registry
+    state: present
+    home: /home/registry
+
+- name: Copy nginx configuration
+  copy: src=nginx/registry dest=/etc/nginx/sites-available
+
+- name: Enable nginx site
+  file:
+    src: /etc/nginx/sites-available/registry
+    dest: /etc/nginx/sites-enabled/registry
+    state: link
+    
+- name: Copy systemd service file
+  copy: src=systemd/registry.service dest=/etc/systemd/system
+
+- name: Copy application wrapper
+  copy:
+    src: systemd/start-server.sh
+    dest: /home/registry
+    mode: 0500
+    owner: registry
+    group: registry
+
+- name: Get git repository
+  git:
+    repo: 'https://github.com/k-gregory/registry.git'
+    dest: /home/registry/project
+
+- name: Build project
+  command: ./gradlew build
+  args:
+    chdir: /home/registry/project
+
+- name: Determine output file
+  shell: ls /home/registry/project/build/libs/registry-*.jar
+  register: jar_files
+
+- name: Make link to the built project
+  file:
+    src: "{{ item }}"
+    dest: /home/registry/server.jar
+    state: link
+  with_items: "{{ jar_files.stdout_lines }}"
+
+- name: Restart services
+  systemd: name="{{ item }}" state=restarted
+  with_items: [registry, nginx]  
