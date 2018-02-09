@@ -3,5 +3,4 @@ registry.iml
 .gradle
 out
 build
-gradle
 !gradle-wrapper.jar
