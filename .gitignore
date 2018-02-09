@@ -4,5 +4,4 @@ registry.iml
 out
 build
 gradle
-gradlew
-gradlew.bat
+!gradle-wrapper.jar
