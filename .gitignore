@@ -1,6 +1,7 @@
 registry.iml
 .idea
 .gradle
+*~
 out
 build
 !gradle-wrapper.jar

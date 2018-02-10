@@ -27,6 +27,7 @@
     src: /etc/nginx/sites-available/registry
     dest: /etc/nginx/sites-enabled/registry
     state: link
+  notify: Restart nginx
     
 - name: Copy systemd service file
   copy: src=systemd/registry.service dest=/etc/systemd/system
@@ -48,6 +49,7 @@
   command: ./gradlew build
   args:
     chdir: /home/registry/project
+  notify: Restart registry
 
 - name: Determine output file
   shell: ls /home/registry/project/build/libs/registry-*.jar
@@ -59,7 +61,3 @@
     dest: /home/registry/server.jar
     state: link
   with_items: "{{ jar_files.stdout_lines }}"
-
-- name: Restart services
-  systemd: name="{{ item }}" state=restarted
-  with_items: [registry, nginx]  
