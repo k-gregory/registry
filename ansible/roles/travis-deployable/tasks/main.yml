@@ -1,2 +1,29 @@
+- name: Add ansible repository
+  apt_repository:
+    repo: 'ppa:ansible/ansible'
+
 - name: Add ansible package
-  apt: name=ansible state=installed
+  apt:
+    name: ansible
+    state: installed
+    update_cache: true
+
+- name: Create user for deploy
+  user:
+    name: ansible-deployer
+    state: present
+    home: /home/ansible-deployer
+    
+- name: Allow user to use sudo for ansible-pull
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: 'ansible-deployer ALL=(ALL) NOPASSWD: /usr/bin/ansible-pull -U https\://github.com/k-gregory/registry ansible/deploy.yml'
+    validate: visudo -cf %s
+
+- name: Copy Travis public key to user
+  authorized_key:
+    user: ansible-deployer
+    state: present
+    key: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9QfrhklipqtbiX0cszscm8UXMk4/qP9KQJGmd/px4kgEFRv9E+jXLnuwk6OM6oCV070iBPeNKwCSzmHWwQEot+YuNRFqz1TWUxW8mlpqCl8WWqrd5Z1n4upk+cnWCc2+rbV7cLjSILkdcS3CPBwINYLeR5rQjT2fYb/V5oPwDZ5JXH1doCAnXzh5Z7S063cvxonzQSIZsDwvy8aEgpVfKwVQcj1eDf+UoywIkE8ygv2Kxu5uHnGWDKHfLFA3J0D9IoVM5igh0mi1pqbdB/zEugcMilI7XixtRmztpGqbFxKZ+cdbvn0Gs2Mp2XPrGAODu1Ii7bZe5vykmWVFQO0eB gregory@skynet
