@@ -13,7 +13,7 @@ before_deploy:
 - chmod 600 /tmp/ansible_key
 - ssh-add /tmp/ansible_key
 deploy:
-        provider: srcipt
+        provider: script
         skip_cleanup: true
         script: ssh ansible-deployer@192.168.122.53 'sudo ansible-pull -U https://github.com/k-gregory/registry ansible/deploy.yml'
         on:
