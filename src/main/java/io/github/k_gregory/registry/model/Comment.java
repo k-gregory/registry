@@ -5,11 +5,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "comment")
 public class Comment {
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "message", nullable = false)
     private String message;
 
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Id @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
     }
@@ -18,7 +21,6 @@ public class Comment {
         this.id = id;
     }
 
-    @Column(name = "message", nullable = false)
     public String getMessage() {
         return message;
     }

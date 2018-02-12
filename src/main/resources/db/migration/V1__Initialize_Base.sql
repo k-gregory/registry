@@ -1,1 +1,1 @@
-CREATE SEQUENCE hibernate_sequence;
+create sequence if not exists hibernate_sequence;

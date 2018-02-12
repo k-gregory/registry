@@ -4,7 +4,19 @@ server.address: 127.0.0.1
 
 ---
 spring:
+  profiles: development
+
+#Allow reloading templates without application restart
+spring.thymeleaf.cache: false
+
+#Pring Hibernate SQL stuff
+logging.level.org.hibernate.SQL: DEBUG
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+---
+spring:
   profiles: gregory-development
+spring.profiles.include: development
 
 spring.datasource.url: jdbc:h2:tcp://localhost/~/Documents/dev-registry
 spring.datasource.username: sa
@@ -13,5 +25,6 @@ spring.datasource.username: sa
 #Run with environment variable SPRING_PROFILES_ACTIVE set to kostya-development
 spring:
   profiles: kostya-development
+spring.profiles.include: development
 
 spring.datasource.url: jdbc:you-shall-configure-this
