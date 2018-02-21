@@ -3,31 +3,32 @@ matrix:
     - language: java
       before_script:
         - cd backend
+      before_cache:
+      - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+      - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+      cache:
+        directories:
+        - "$HOME/.gradle/caches/"
+        - "$HOME/.gradle/wrapper/"
     - language: node_js
       before_script:
         - cd frontend
-
-before_cache:
-- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-cache:
-  directories:
-  - "$HOME/.gradle/caches/"
-  - "$HOME/.gradle/wrapper/"
-
-before_deploy:
-- openssl aes-256-cbc -K $encrypted_70c7e4b72870_key -iv $encrypted_70c7e4b72870_iv
-  -in ansible_key.enc -out /tmp/ansible_key -d
-- eval "$(ssh-agent -s)"
-- chmod 600 /tmp/ansible_key
-- ssh-add /tmp/ansible_key
-
-addons:
+jobs:
+  include:
+    - stage: deploy
+      script: skip
+      addons:
         ssh_known_hosts: gregory-k.me
-
-deploy:
+      before_deploy:
+      - openssl aes-256-cbc -K $encrypted_70c7e4b72870_key -iv $encrypted_70c7e4b72870_iv
+        -in ansible_key.enc -out /tmp/ansible_key -d
+      - eval "$(ssh-agent -s)"
+      - chmod 600 /tmp/ansible_key
+      - ssh-add /tmp/ansible_key
+      deploy:
         provider: script
         skip_cleanup: true
         script: ssh ansible-deployer@gregory-k.me 'sudo ansible-pull -U https://github.com/k-gregory/registry ansible/deploy.yml'
         on:
                 branch: master
+
