@@ -46,7 +46,7 @@
     dest: /home/registry/project
 
 - name: Build project
-  command: gradlew build
+  command: ./gradlew build
   args:
     chdir: /home/registry/project/backend
   notify: Restart registry

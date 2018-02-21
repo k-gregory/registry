@@ -1,6 +1,6 @@
 jobs:
   include:
-    - stage:  test_backend
+    - stage: Test
       language: java
       before_script:
         - cd backend
@@ -11,7 +11,7 @@ jobs:
         directories:
         - "$HOME/.gradle/caches/"
         - "$HOME/.gradle/wrapper/"
-    - stage: test_frontend
+    - stage: Test
       language: node_js
       before_script:
         - cd frontend
