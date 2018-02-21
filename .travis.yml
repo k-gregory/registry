@@ -1,4 +1,12 @@
-language: java
+matrix:
+  include:
+    - language: java
+      before_script:
+        - cd backend
+    - language: node_js
+      before_script:
+        - cd frontend
+
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
