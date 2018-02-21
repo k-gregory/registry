@@ -1,6 +1,7 @@
-matrix:
+jobs:
   include:
-    - language: java
+    -stage:  test_backend
+      language: java
       before_script:
         - cd backend
       before_cache:
@@ -10,11 +11,10 @@ matrix:
         directories:
         - "$HOME/.gradle/caches/"
         - "$HOME/.gradle/wrapper/"
-    - language: node_js
+    - stage: test_frontend
+      language: node_js
       before_script:
         - cd frontend
-jobs:
-  include:
     - stage: deploy
       script: skip
       addons:
