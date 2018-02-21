@@ -1,6 +1,6 @@
 jobs:
   include:
-    -stage:  test_backend
+    - stage:  test_backend
       language: java
       before_script:
         - cd backend
