@@ -46,13 +46,13 @@
     dest: /home/registry/project
 
 - name: Build project
-  command: ./backend/gradlew build
+  command: gradlew build
   args:
-    chdir: /home/registry/project
+    chdir: /home/registry/project/backend
   notify: Restart registry
 
 - name: Determine output file
-  shell: ls /home/registry/project/build/libs/registry-*.jar
+  shell: ls /home/registry/project/backend/build/libs/registry-*.jar
   register: jar_files
 
 - name: Make link to the built project
