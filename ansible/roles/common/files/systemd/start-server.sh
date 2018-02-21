@@ -1,2 +1,2 @@
 #!/bin/sh
-java -jar /home/registry/server.jar
+java -Djava.security.egd=file:/dev/./urandom -jar /home/registry/server.jar
