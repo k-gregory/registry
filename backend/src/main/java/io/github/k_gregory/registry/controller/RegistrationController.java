@@ -105,8 +105,8 @@ public class RegistrationController {
     // Returns URL user visited before being redirected to login page
     private String getPostRegistrationRedirect(HttpServletRequest request, HttpServletResponse response) {
         return Optional
-                .of(requestCache.getRequest(request, response))
-                .flatMap(s -> Optional.of(s.getRedirectUrl()))
+                .ofNullable(requestCache.getRequest(request, response))
+                .flatMap(s -> Optional.ofNullable(s.getRedirectUrl()))
                 .map(url -> "redirect:/" + url)
                 .orElse("redirect:/profile");
     }
