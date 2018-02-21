@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
+import java.util.Optional;
 
 class RegisterDTO {
     private String username;
@@ -103,12 +104,10 @@ public class RegistrationController {
 
     // Returns URL user visited before being redirected to login page
     private String getPostRegistrationRedirect(HttpServletRequest request, HttpServletResponse response) {
-        String redirectUrl = requestCache.getRequest(request, response).getRedirectUrl();
-        if (redirectUrl != null) {
-            //TODO: Is this secure?
-            return "redirect:" + redirectUrl;
-        } else {
-            return "redirect:/profile";
-        }
+        return Optional
+                .of(requestCache.getRequest(request, response))
+                .flatMap(s -> Optional.of(s.getRedirectUrl()))
+                .map(url -> "redirect:/" + url)
+                .orElse("redirect:/profile");
     }
 }
