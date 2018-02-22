@@ -68,4 +68,12 @@ public class AppUser {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    public Set<Authority> getOwnAuthorities() {
+        return ownAuthorities;
+    }
+
+    public Set<Group> getGroups() {
+        return groups;
+    }
 }

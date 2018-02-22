@@ -1,27 +1,38 @@
 package io.github.k_gregory.registry.controller;
 
+import io.github.k_gregory.registry.model.security.AppUser;
+import io.github.k_gregory.registry.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
 class RegisterDTO {
+    @NotNull
+    @Size(min = 1, max = 50)
     private String username;
+
+    @NotNull
+    @Size(min = 4, max = 50)
     private String password;
 
     public String getPassword() {
@@ -43,7 +54,7 @@ class RegisterDTO {
 
 @Controller
 public class RegistrationController {
-    private final UserDetailsManager userDetailsManager;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
@@ -52,34 +63,36 @@ public class RegistrationController {
 
 
     @Autowired
-    public RegistrationController(UserDetailsManager userDetailsManager,
-                                  PasswordEncoder passwordEncoder,
+    public RegistrationController(UserService userService, PasswordEncoder passwordEncoder,
                                   AuthenticationManager authenticationManager) {
-        this.userDetailsManager = userDetailsManager;
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
     }
 
     @PostMapping("/register")
-    public String register(HttpServletRequest request, HttpServletResponse response, RegisterDTO register) {
+    public String register(HttpServletRequest request,
+                           HttpServletResponse response,
+                           @Valid @ModelAttribute("register") RegisterDTO register,
+                           BindingResult binding) {
+        if (binding.hasErrors()) {
+            return "register";
+        }
+
         String username = register.getUsername();
         String password = register.getPassword();
         String encodedPassword = passwordEncoder.encode(register.getPassword());
 
-        if (userDetailsManager.userExists(username)) {
+        if (userService.userExists(username)) {
             //TODO: Show message that user already exists
             return "register";
         }
 
-        //TODO: change authorities list
-        UserDetails newUser = User.builder()
-                .username(username)
-                .password(encodedPassword)
-                .authorities(new String[]{}).build();
 
-        userDetailsManager.createUser(newUser);
+        AppUser user = userService.registerUser(username, encodedPassword);
+        Set<GrantedAuthority> authorities = userService.getUserAuthorities(user);
 
-        authologin(username, password, request);
+        autologin(username, password, authorities, request);
         return getPostRegistrationRedirect(request, response);
     }
 
@@ -90,10 +103,14 @@ public class RegistrationController {
     }
 
     // Programmatically logs user in
-    private void authologin(String username, String password, HttpServletRequest request) {
+    private void autologin(String username,
+                           String password,
+                           Collection<GrantedAuthority> authorities,
+                           HttpServletRequest request) {
         request.getSession();
+
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                username, password, Collections.emptyList()
+                username, password, authorities
         );
         token.setDetails(new WebAuthenticationDetails(request));
         authenticationManager.authenticate(token);
@@ -107,7 +124,7 @@ public class RegistrationController {
         return Optional
                 .ofNullable(requestCache.getRequest(request, response))
                 .flatMap(s -> Optional.ofNullable(s.getRedirectUrl()))
-                .map(url -> "redirect:/" + url)
+                .map(url -> "redirect:" + url)
                 .orElse("redirect:/profile");
     }
 }
