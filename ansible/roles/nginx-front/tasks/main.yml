@@ -1,5 +1,10 @@
-- name: Ensure SSL certificates exist
-  file: path="/etc/ssl/{{ item }}" state=file
+- name: Copy SSL certificates
+  copy:
+    src: "cert/{{ item }}"
+    dest: "/etc/ssl/{{ item }}"
+    owner: root
+    group: root
+    mode: 0700
   with_items: [gregory-k.me.crt, gregory-k.me.key]
 
 - name: Install nginx
@@ -21,3 +26,9 @@
     dest: /etc/nginx/sites-enabled/registry
     state: link
   notify: Restart nginx  
+
+- name: Start nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes

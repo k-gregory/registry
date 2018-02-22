@@ -8,7 +8,7 @@
     home: /home/registry
     
 - name: Copy systemd service file
-  copy: src=registry.service dest=/etc/systemd/system
+  template: src=registry.service.j2 dest=/etc/systemd/system/registry.service
 
 - name: Copy application wrapper
   copy:
@@ -39,3 +39,9 @@
     dest: /home/registry/server.jar
     state: link
   with_items: "{{ jar_files.stdout_lines }}"
+
+- name: Start registry service
+  systemd:
+    name: registry
+    state: started
+    enabled: yes

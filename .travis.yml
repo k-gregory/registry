@@ -28,7 +28,7 @@ jobs:
       deploy:
         provider: script
         skip_cleanup: true
-        script: ssh ansible-deployer@gregory-k.me 'sudo ansible-pull -U https://github.com/k-gregory/registry ansible/travis-deploy.yml'
+        script: ssh ansible-deployer@gregory-k.me 'sudo ansible-pull --vault-id db@/etc/db_keyfile.txt -U https\://github.com/k-gregory/registry ansible/travis-deploy.yml'
         on:
                 branch: master
 

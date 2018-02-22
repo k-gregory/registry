@@ -17,12 +17,17 @@
         name: ansible-deployer
         state: present
         home: /home/ansible-deployer
+
+    - name: Copy DB password Ansible Vault keyfile
+      copy:
+        src: "{{ db_keyfile }}"
+        dest: /etc/db_keyfile.txt
         
     - name: Allow user to use sudo for ansible-pull
       lineinfile:
         dest: /etc/sudoers
         state: present
-        line: 'ansible-deployer ALL=(ALL) NOPASSWD: /usr/bin/ansible-pull -U https\://github.com/k-gregory/registry ansible/travis-deploy.yml'
+        line: 'ansible-deployer ALL=(ALL) NOPASSWD: /usr/bin/ansible-pull --vault-id db@/etc/db_keyfile.txt -U https\://github.com/k-gregory/registry ansible/travis-deploy.yml'
         validate: visudo -cf %s
     
     - name: Copy Travis public key to user

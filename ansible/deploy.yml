@@ -4,3 +4,4 @@
   roles:
     - backend
     - nginx-front
+    - db

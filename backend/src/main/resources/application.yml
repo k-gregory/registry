@@ -4,6 +4,19 @@ server.address: 127.0.0.1
 
 ---
 spring:
+  profiles: production
+
+#Set migrations for PostgreSQL
+spring.flyway.locations: classpath:db/migration/postgresql
+
+#Configure PostgreSQL datasource
+spring.datasource:
+  url: jdbc:postgresql:registry-db
+  password: ${DB_PASSWORD}
+
+spring.datasource.use
+---
+spring:
   profiles: development
 
 #Allow reloading templates without application restart
@@ -13,6 +26,8 @@ spring.thymeleaf.cache: false
 logging.level.org.hibernate.SQL: DEBUG
 logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
+#Set migrations for h2
+spring.flyway.locations: classpath:db/migration/h2
 ---
 spring:
   profiles: gregory-development

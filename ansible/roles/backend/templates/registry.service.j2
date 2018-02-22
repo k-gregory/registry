@@ -6,5 +6,6 @@ Type=simple
 User=registry
 Restart=always
 RestartSec=3
+Environment=DB_PASSWORD={{ db_password }}
 [Install]
 WantedBy=multi-user.target
