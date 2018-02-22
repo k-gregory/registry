@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "comment")
 public class Comment {
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
