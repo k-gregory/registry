@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "authority")
 public class Authority {
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private long id;

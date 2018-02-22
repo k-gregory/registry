@@ -7,7 +7,7 @@ import java.util.Set;
 @Entity
 @Table(name = "app_user")
 public class AppUser {
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
     private long id;

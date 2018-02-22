@@ -4,22 +4,21 @@
     - postgresql-9.5
     - python-psycopg2
 
-- name: Create database for registry
-  postgresql_db:
-    name: registry-db
-    encoding: UTF-8
-  become: true
-  become_user: postgres
-
 - name: Create database user for registry
   postgresql_user:
     name: registry
-    db: registry-db
     state: present
     password: "{{ db_password }}"
   become: true
   become_user: postgres
 
+- name: Create database for registry
+  postgresql_db:
+    name: registry-db
+    encoding: UTF-8
+    owner: registry
+  become: true
+  become_user: postgres  
 
 - name: Enable PostgreSQL service
   systemd:
