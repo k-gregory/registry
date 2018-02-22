@@ -1,3 +1,6 @@
+- name: Install JDK
+  apt: name=openjdk-8-jdk state=present
+
 - name: Create user for running backend
   user:
     name: registry
@@ -5,11 +8,11 @@
     home: /home/registry
     
 - name: Copy systemd service file
-  copy: src=systemd/registry.service dest=/etc/systemd/system
+  copy: src=registry.service dest=/etc/systemd/system
 
 - name: Copy application wrapper
   copy:
-    src: systemd/start-server.sh
+    src: start-server.sh
     dest: /home/registry
     mode: 0500
     owner: registry

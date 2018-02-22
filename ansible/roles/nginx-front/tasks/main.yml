@@ -1,0 +1,23 @@
+- name: Ensure SSL certificates exist
+  file: path="/etc/ssl/{{ item }}" state=file
+  with_items: [gregory-k.me.crt, gregory-k.me.key]
+
+- name: Install nginx
+  apt: name=nginx state=present
+
+- name: Disable default nginx site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Restart nginx
+
+- name: Copy nginx configuration
+  copy: src=registry dest=/etc/nginx/sites-available
+  notify: Restart nginx
+
+- name: Enable nginx site
+  file:
+    src: /etc/nginx/sites-available/registry
+    dest: /etc/nginx/sites-enabled/registry
+    state: link
+  notify: Restart nginx  
