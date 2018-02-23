@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 class CommentDTO {
     private String message;
@@ -40,6 +41,12 @@ public class IndexController {
     @ModelAttribute("comments")
     public Iterable<Comment> modelComments() {
         return comments.findAll();
+    }
+
+    @GetMapping("/dumb")
+    @ResponseBody
+    public String dumb() {
+        return "dumb";
     }
 
     @PostMapping("/")
