@@ -17,8 +17,6 @@ jobs:
         - "node"
       before_install:
         - cd frontend
-      before_script:
-        - cd frontend
     - stage: deploy
       script: skip
       addons:
