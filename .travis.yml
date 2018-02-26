@@ -18,6 +18,9 @@ jobs:
       before_script:
         - cd frontend
         - npm install -g @vue/cli
+        - npm install @vue/cli
+        - npm install gulp
+        - npm install -g gulp
     - stage: deploy
       script: skip
       addons:
