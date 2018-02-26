@@ -16,6 +16,11 @@ server {
         ssl_certificate_key /etc/ssl/gregory-k.me.key;
 
         location / {
+		 root /home/registry/project/frontend/dist;
+		 try_files $uri $uri/ /index.html;
+	}
+
+        location /api {
                 proxy_pass http://localhost:8080;
         }
 }

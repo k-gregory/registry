@@ -22,11 +22,17 @@
   git:
     repo: 'https://github.com/k-gregory/registry.git'
     dest: /home/registry/project
+  become: true
+  become_user: registry
 
 - name: Build project
   command: ./gradlew build
   args:
     chdir: /home/registry/project/backend
+  environment:
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  become: true
+  become_user: registry
   notify: Restart registry
 
 - name: Determine output file
