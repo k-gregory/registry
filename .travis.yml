@@ -15,9 +15,10 @@ jobs:
       language: node_js
       node_js:
         - "node"
+      before_install:
+        - cd frontend
       before_script:
         - cd frontend
-        - mkdir -p node_modules/.bin
     - stage: deploy
       script: skip
       addons:
