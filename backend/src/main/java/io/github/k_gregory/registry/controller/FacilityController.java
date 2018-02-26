@@ -1,7 +1,7 @@
 package io.github.k_gregory.registry.controller;
 
 import io.github.k_gregory.registry.repository.FacilityRepository;
-import io.github.k_gregory.registry.repository.SolutionRepository;
+import io.github.k_gregory.registry.repository.EnforcementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/facility")
 public class FacilityController {
     private final FacilityRepository facilities;
-    private final SolutionRepository solutions;
+    private final EnforcementRepository solutions;
 
     @Autowired
-    public FacilityController(FacilityRepository facilities, SolutionRepository solutions) {
+    public FacilityController(FacilityRepository facilities, EnforcementRepository solutions) {
         this.facilities = facilities;
         this.solutions = solutions;
     }

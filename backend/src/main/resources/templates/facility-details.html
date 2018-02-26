@@ -4,31 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Facilities</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" rel="stylesheet">
 </head>
 <body>
 
-<h1>
-    <span th:text="${facility.id}">Id</span>
-    <span th:text="${facility.name}">Name</span>
-</h1>
+<section class="section">
+    <div class="container">
+        <h1>
+            <span th:text="${facility.name}">Name</span>
+        </h1>
+    </div>
+    <div class="container">
+        <table class="table" border="1px">
+            <thead>
+            <tr>
+                <td>Id</td>
+                <td>Sender name</td>
+                <td>Receiver name</td>
+            </tr>
+            </thead>
 
-<table border="1px">
-    <thead>
-    <tr>
-        <td>Id</td>
-        <td>Sender name</td>
-        <td>Receiver name</td>
-    </tr>
-    </thead>
-
-    <tbody>
-    <tr th:each="solution: ${solutions}">
-        <td th:text="${solution.id}">Id</td>
-        <td th:text="${solution.sender}">Sender name</td>
-        <td th:text="${solution.receiver}">Receiver name</td>
-    </tr>
-    </tbody>
-</table>
+            <tbody>
+            <tr th:each="solution: ${solutions}">
+                <td th:text="${solution.id}">Id</td>
+                <td th:text="${solution.sender}">Sender name</td>
+                <td th:text="${solution.receiver}">Receiver name</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 
 </body>
 </html>

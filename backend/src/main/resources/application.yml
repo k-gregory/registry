@@ -42,4 +42,6 @@ spring:
   profiles: kostya-development
 spring.profiles.include: development
 
-spring.datasource.url: jdbc:you-shall-configure-this
+spring.datasource.url: jdbc:postgresql://localhost/registry
+spring.datasource.username: postgres
+spring.datasource.password: root
