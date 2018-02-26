@@ -8,8 +8,10 @@ server {
 }
 
 server {
+        gzip on;
+	gzip_types    text/plain application/json application/javascript application/x-javascript text/javascript text/xml text/css;
 
-        listen 443 ssl default_server;
+        listen 443 ssl default_server http2;
         listen [::]:443 ssl default_server;
 
         ssl_certificate /etc/ssl/gregory-k.me.crt;
