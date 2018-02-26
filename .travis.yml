@@ -17,7 +17,6 @@ jobs:
         - "node"
       before_script:
         - cd frontend
-        - npm install @vue/cli
     - stage: deploy
       script: skip
       addons:
