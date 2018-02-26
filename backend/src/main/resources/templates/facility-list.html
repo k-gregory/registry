@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Facilities</title>
+</head>
+<body>
+
+<table border="1px">
+    <thead>
+    <tr><td>Id</td><td>Name</td></tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="facility: ${facilities}">
+        <td th:text="${facility.id}">Id</td>
+        <td>
+            <a th:href="@{|/facility/${facility.id}|}"
+               th:text="${facility.name}">Name</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

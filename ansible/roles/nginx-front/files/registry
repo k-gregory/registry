@@ -17,12 +17,16 @@ server {
         ssl_certificate /etc/ssl/gregory-k.me.crt;
         ssl_certificate_key /etc/ssl/gregory-k.me.key;
 
-        location / {
-		 root /home/registry/project/frontend/dist;
-		 try_files $uri $uri/ /index.html;
+	location / {
+		proxy_pass http://localhost:8080;
 	}
 
-        location /api {
-                proxy_pass http://localhost:8080;
-        }
+##        location / {
+##		 root /home/registry/project/frontend/dist;
+##		 try_files $uri $uri/ /index.html;
+##	}
+##
+##        location /api {
+##                proxy_pass http://localhost:8080;
+##        }
 }

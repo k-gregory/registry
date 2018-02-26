@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Facilities</title>
+</head>
+<body>
+
+<h1>
+    <span th:text="${facility.id}">Id</span>
+    <span th:text="${facility.name}">Name</span>
+</h1>
+
+<table border="1px">
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>Sender name</td>
+        <td>Receiver name</td>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="solution: ${solutions}">
+        <td th:text="${solution.id}">Id</td>
+        <td th:text="${solution.sender}">Sender name</td>
+        <td th:text="${solution.receiver}">Receiver name</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
