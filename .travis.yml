@@ -15,6 +15,7 @@ jobs:
       language: node_js
       before_script:
         - cd frontend
+        - npm install -g @vue/cli
     - stage: deploy
       script: skip
       addons:
