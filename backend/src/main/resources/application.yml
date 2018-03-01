@@ -1,47 +1,47 @@
-spring.jpa.open-in-view: false
-spring.jpa.hibernate.ddl-auto: validate
+spring:
+  jpa:
+    open-in-view: false
+    hibernate.ddl-auto: validate
 server.address: 127.0.0.1
-
 ---
+spring.profiles: gregory-perftest
 spring:
-  profiles: production
-
-#Set migrations for PostgreSQL
-spring.flyway.locations: classpath:db/migration/postgresql
-
-#Configure PostgreSQL datasource
+  flyway:
+    locations: classpath:db/migration/postgresql
+  datasource:
+    url: jdbc:postgresql:gregory
+    username: gregory
+  devtools:
+    livereload.enabled: false
+    restart.enabled: false
+---
+spring.profiles: production
+spring:
+  datasource:
+    url: jdbc:postgresql:registry-db
+    username: registry
+    password: ${DB_PASSWORD}
+  flyway:
+    locations: classpath:db/migration/postgresql
+---
+spring.profiles: development
+spring:
+  thymeleaf.cache: false
+  flyway.locations: classpath:db/migration/postgresql
+logging.level:
+  org.hibernate.SQL: DEBUG
+  org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+---
+spring.profiles: gregory-development
+spring.profiles.include: development
 spring.datasource:
-  url: jdbc:postgresql:registry-db
-  username: registry
-  password: ${DB_PASSWORD}
+  url: jdbc:postgresql:gregory
+  username: gregory
 ---
-spring:
-  profiles: development
-
-#Allow reloading templates without application restart
-spring.thymeleaf.cache: false
-
-#Pring Hibernate SQL stuff
-logging.level.org.hibernate.SQL: DEBUG
-logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
-#Set migrations for h2
-spring.flyway.locations: classpath:db/migration/postgresql
----
-spring:
-  profiles: gregory-development
+spring.profiles: kostya-development
 spring.profiles.include: development
-
-#spring.datasource.url: jdbc:h2:tcp://localhost/~/Documents/dev-registry
-spring.datasource.url: jdbc:postgresql:gregory
-spring.datasource.username: gregory
-
----
-#Run with environment variable SPRING_PROFILES_ACTIVE set to kostya-development
 spring:
-  profiles: kostya-development
-spring.profiles.include: development
-
-spring.datasource.url: jdbc:postgresql://localhost/registry
-spring.datasource.username: postgres
-spring.datasource.password: root
+  datasource:
+    url: jdbc:postgresql://localhost/registry
+    username: postgres
+    password: root
