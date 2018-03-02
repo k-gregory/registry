@@ -22,7 +22,11 @@ server {
 		 try_files $uri $uri/ /index.html;
 	}
 
-        location /api {
+        location ~ ^/(swagger-resources|v2|swagger-ui.html) {
+                proxy_pass http://localhost:8080;
+        }
+
+        location ~ ^/(login|api|webjars) {
                 proxy_pass http://localhost:8080;
         }
 }
