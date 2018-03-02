@@ -4,13 +4,13 @@ import io.github.k_gregory.registry.model.Comment;
 import io.github.k_gregory.registry.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/api/dumb")
 public class DumbController {
     private final JdbcTemplate jdbc;

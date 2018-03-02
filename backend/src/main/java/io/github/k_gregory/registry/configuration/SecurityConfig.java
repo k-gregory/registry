@@ -16,7 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] AUTH_WHITELIST = {
-            "/", "/register", "/dumb", "/dumb/***",
+            "/",
+            "/register",
             "/facility", "/facility/**",
 
             // -- swagger ui

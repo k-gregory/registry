@@ -21,6 +21,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("io.github.k_gregory.registry"))
                 .paths(PathSelectors.ant("/api/**"))
                 .build()
+                .host("https://gregory-k.me")
                 .pathMapping("/")
                 .enableUrlTemplating(true)
                 .produces(Collections.singleton("application/json"))

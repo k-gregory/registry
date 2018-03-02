@@ -13,6 +13,7 @@
   
 - name: Clone repository
   git:
+    force: yes
     repo: 'https://github.com/k-gregory/registry.git'
     dest: /home/registry/project
   become: true
