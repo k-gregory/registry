@@ -15,6 +15,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private static final String[] AUTH_WHITELIST = {
+            "/", "/register", "/dumb", "/dumb/***",
+            "/facility", "/facility/**",
+
+            // -- swagger ui
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v2/api-docs",
+            "/webjars/**"
+    };
+
     private final UserDetailsService userDetailsService;
 
     @Autowired
@@ -26,9 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(
-                        "/", "/register", "/dumb", "/dumb/***",
-                        "/facility", "/facility/**").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin()
                 .loginPage("/login")

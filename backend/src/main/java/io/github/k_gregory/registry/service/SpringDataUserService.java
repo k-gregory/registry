@@ -18,7 +18,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Service @Primary
+@Service
+@Primary
 public class SpringDataUserService implements UserService {
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;

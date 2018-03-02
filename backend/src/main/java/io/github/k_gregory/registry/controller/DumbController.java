@@ -7,10 +7,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
-@RequestMapping("/dumb")
+@RequestMapping("/api/dumb")
 public class DumbController {
     private final JdbcTemplate jdbc;
     private final CommentRepository commentRepository;
@@ -22,13 +23,11 @@ public class DumbController {
     }
 
     @GetMapping("/simplest")
-    @ResponseBody
     public String dumb() {
         return "dumb";
     }
 
     @GetMapping("/json")
-    @ResponseBody
     public Comment json() {
         Comment comment = new Comment();
         comment.setId(1L);
@@ -37,7 +36,6 @@ public class DumbController {
     }
 
     @GetMapping("/db-single-template")
-    @ResponseBody
     public Comment dbSingleTemplate() {
         return jdbc.query("select c.id, c.message from comment c", (rs) -> {
             rs.next();
@@ -49,14 +47,12 @@ public class DumbController {
     }
 
     @GetMapping("/db-single-springdata")
-    @ResponseBody
     public Comment dbSingleSpringData() {
         return commentRepository.findOne();
     }
 
     @GetMapping("/db-all-springdata")
-    @ResponseBody
-    public Iterable<Comment> dbAllSpringData() {
+    public List<Comment> dbAllSpringData() {
         return commentRepository.findAll();
     }
 }

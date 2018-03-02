@@ -1,7 +1,7 @@
 package io.github.k_gregory.registry.controller;
 
-import io.github.k_gregory.registry.repository.FacilityRepository;
 import io.github.k_gregory.registry.repository.EnforcementRepository;
+import io.github.k_gregory.registry.repository.FacilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,13 +22,13 @@ public class FacilityController {
     }
 
     @GetMapping
-    public String index(Model m){
+    public String index(Model m) {
         m.addAttribute("facilities", facilities.findAll());
         return "facility-list";
     }
 
     @GetMapping("/{id}")
-    public String details(Model m, @PathVariable Long id){
+    public String details(Model m, @PathVariable Long id) {
         m.addAttribute("facility", facilities.findById(id).get());
         m.addAttribute("solutions", solutions.findAllByFacilityId(id));
         return "facility-details";

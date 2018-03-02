@@ -2,13 +2,13 @@ package io.github.k_gregory.registry.repository;
 
 import io.github.k_gregory.registry.model.security.AppUser;
 import io.github.k_gregory.registry.model.security.Authority;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.stream.Stream;
 
-public interface UserRepository extends CrudRepository<AppUser, Long> {
+public interface UserRepository extends JpaRepository<AppUser, Long> {
     AppUser findByName(String name);
 
     boolean existsByName(String name);
