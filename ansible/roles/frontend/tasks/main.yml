@@ -1,6 +1,6 @@
 - name: Copy compiled frontend
   copy: 
-    src: dist
+    src: /home/ansible-deployer/dist
     dest: /home/registry
     owner: registry
     group: registry
