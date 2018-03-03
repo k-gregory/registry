@@ -37,7 +37,6 @@ interface LandingSearchRow {
 }
 interface LandingSearchData {
     tableData: LandingSearchRow[];
-    searchQuery: string;
     dateViewOptions: DateViewOptions;
 }
 
@@ -58,7 +57,6 @@ export default class LandingSearch extends Vue {
       ];
       return {
           tableData,
-          searchQuery: '',
           dateViewOptions: {
               year: 'numeric', month: 'long', day: 'numeric',
             },

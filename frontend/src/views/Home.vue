@@ -5,7 +5,8 @@
         <b-field>
           <b-input placeholder="Знайти..."
               type="search"
-              icon="magnify">
+              icon="magnify"
+              v-model="searchQuery">
           </b-input>
           <p class="control">
               <button class="button is-primary">Пошук</button>
@@ -32,12 +33,22 @@
 import { Component, Vue } from 'vue-property-decorator';
 import LandingSearchTable from '@/components/LandingSearchTable.vue'; // @ is an alias to /src
 
+interface HomePageData {
+  searchQuery: string;
+}
+
 @Component({
   components: {
     LandingSearchTable,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  public data(): HomePageData {
+    return {
+      searchQuery: '',
+    };
+  }
+}
 </script>
 
 <style lang="scss" scoped>
