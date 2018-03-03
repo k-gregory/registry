@@ -25,27 +25,51 @@ public class IndividualDebtor {
     @Column(name = "birthdate", nullable = false)
     private Date birthDate;
 
-    public void setLastName(String lastName) { this.lastName = lastName; }
+    public String getUid() {
+        return uid;
+    }
 
-    public void setMiddleName(String middleName) { this.middleName = middleName; }
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
-    public void setFirstName(String firstName)  { this.firstName = firstName; }
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public String getLastName() { return lastName; }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-    public String getMiddleName() { return middleName; }
+    public String getMiddleName() {
+        return middleName;
+    }
 
-    public String getFirstName() { return firstName; }
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
 
-    public String getPassport() { return passport; }
+    public String getLastName() {
+        return lastName;
+    }
 
-    public void setPassport(String passport) {  this.passport = passport; }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-    public String getUid() { return uid; }
+    public String getPassport() {
+        return passport;
+    }
 
-    public void setUid(String uid) { this.uid = uid; }
+    public void setPassport(String passport) {
+        this.passport = passport;
+    }
 
-    public Date getBirthDate() { return birthDate; }
+    public Date getBirthDate() {
+        return birthDate;
+    }
 
-    public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
 }

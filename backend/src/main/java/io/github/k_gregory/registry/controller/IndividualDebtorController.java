@@ -39,46 +39,52 @@ class IndividualDebtorDto {
     @Pattern(regexp = "^(?:(?![ЫЪЭ])[А-ЯЄІЇ]){2}\\d{6}$", flags = Pattern.Flag.UNICODE_CASE)
     private String passport;
 
-    public String getLastName() {
-        return lastName;
+    public String getUid() {
+        return uid;
     }
-
-    public String getMiddleName() { return middleName; }
-
-    public String getFirstName() { return firstName; }
-
-    public String getUid() { return uid; }
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getFirstName() {
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    public String getMiddleName() {
+        return middleName;
+    }
+
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setPassport(String passport) {
-        this.passport = passport;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getPassport() {
         return passport;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public void setPassport(String passport) {
+        this.passport = passport;
     }
 }
 
