@@ -11,6 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -28,10 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     private final UserDetailsService userDetailsService;
+    private final DataSource ds;
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService) {
+    public SecurityConfig(UserDetailsService userDetailsService, DataSource ds) {
         this.userDetailsService = userDetailsService;
+        this.ds = ds;
     }
 
     @Override
@@ -44,7 +50,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll().and()
                 .logout()
-                .permitAll();
+                .permitAll().and()
+                .rememberMe()
+                .rememberMeParameter("remember-me")
+                .tokenRepository(tokenRepository());
+    }
+
+    @Bean
+    public PersistentTokenRepository tokenRepository() {
+        JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
+        repository.setDataSource(ds);
+        return repository;
     }
 
     @Bean
