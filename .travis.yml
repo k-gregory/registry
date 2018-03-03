@@ -33,6 +33,7 @@ jobs:
         skip_cleanup: true
         script:
           - cd frontend
+          - npm install
           - npm run build
           - ssh ansible-deployer@gregory-k.me 'cd /home/registry && mkdir -p assets'
           - scp dist/* ansible-deployer@gregory-k.me:/home/registry/assets
