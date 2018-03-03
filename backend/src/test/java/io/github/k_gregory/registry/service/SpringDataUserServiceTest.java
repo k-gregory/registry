@@ -5,6 +5,7 @@ import io.github.k_gregory.registry.model.security.AppUser;
 import io.github.k_gregory.registry.model.security.Authority;
 import io.github.k_gregory.registry.model.security.Group;
 import io.github.k_gregory.registry.repository.UserRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,20 +31,12 @@ public class SpringDataUserServiceTest extends AbstractIntegrationTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Test
-    @Transactional
-    public void getUserAuthorities() {
-        Authority[] a = new Authority[4];
-        Group[] g = new Group[3];
-        AppUser[] u = new AppUser[4];
-        ArrayList<Set<GrantedAuthority>> grants = new ArrayList<>();
+    private Authority[] a;
+    private Group[] g;
+    private AppUser[] u;
 
-        for (int i = 0; i < g.length; i++) {
-            Group group = new Group();
-            g[i] = group;
-            group.setName("g" + i);
-            em.persist(group);
-        }
+    private void fillAuthorities() {
+        a = new Authority[4];
 
         for (int i = 0; i < a.length; i++) {
             Authority authority = new Authority();
@@ -51,6 +44,21 @@ public class SpringDataUserServiceTest extends AbstractIntegrationTest {
             authority.setName("a" + i);
             em.persist(authority);
         }
+    }
+
+    private void fillGroups() {
+        g = new Group[3];
+
+        for (int i = 0; i < g.length; i++) {
+            Group group = new Group();
+            g[i] = group;
+            group.setName("g" + i);
+            em.persist(group);
+        }
+    }
+
+    private void fillUsers() {
+        u = new AppUser[4];
 
         for (int i = 0; i < u.length; i++) {
             AppUser user = new AppUser();
@@ -60,16 +68,18 @@ public class SpringDataUserServiceTest extends AbstractIntegrationTest {
             user.setPassword(Integer.toString(i));
             em.persist(user);
         }
+    }
 
-        // g0: a0
-        // g1: a0, a1
-        // g2: a2
+    // g0: a0
+    // g1: a0, a1
+    // g2: a2
 
-        // u0: g0, a2 => a0, a2
-        // u1: g1, a2 => a0, a1, a2
-        // u2: a2, a3 => a2, a3
-        // u3: g1, g2 => a0, a1, a2
+    // u0: g0, a2 => a0, a2
+    // u1: g1, a2 => a0, a1, a2
+    // u2: a2, a3 => a2, a3
+    // u3: g1, g2 => a0, a1, a2
 
+    private void setUpRelations() {
         g[0].getAuthorities().add(a[0]);
         g[1].getAuthorities().add(a[0]);
         g[1].getAuthorities().add(a[1]);
@@ -83,8 +93,26 @@ public class SpringDataUserServiceTest extends AbstractIntegrationTest {
         u[2].getOwnAuthorities().add(a[3]);
         u[3].getGroups().add(g[1]);
         u[3].getGroups().add(g[2]);
+        merge();
+    }
 
+    @Before
+    @Transactional
+    public void setUp() {
+        fillAuthorities();
+        fillGroups();
+        fillUsers();
+        setUpRelations();
+    }
+
+    private void merge() {
         Stream.of(g, u).flatMap(Arrays::stream).forEach(em::merge);
+    }
+
+    @Test
+    @Transactional
+    public void getUserAuthorities_WhenAddingAuthoritiesToUsersAndGroups_ReturnsAllAuthoritiesOfUser() {
+        ArrayList<Set<GrantedAuthority>> grants = new ArrayList<>();
         for (AppUser anU : u) grants.add(userService.getUserAuthorities(userRepository.getOne(anU.getId())));
         assertThat(grants.get(0)).hasSameElementsAs(createAuthorityList("a0", "a2"));
         assertThat(grants.get(1)).hasSameElementsAs(createAuthorityList("a0", "a1", "a2"));
