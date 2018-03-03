@@ -27,10 +27,23 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import DateViewOptions from '@/shared/DateViewOptions';
+
+interface LandingSearchRow {
+    id: number;
+    facility: string;
+    date: Date;
+    state: string;
+}
+interface LandingSearchData {
+    tableData: LandingSearchRow[];
+    searchQuery: string;
+    dateViewOptions: DateViewOptions;
+}
 
 @Component
 export default class LandingSearch extends Vue {
-  public data(): object {
+  public data(): LandingSearchData {
       const tableData = [
           {id: 112228, facility: 'Вишневецьке УСОЯОРОРО імені Скоропадського',
             date: new Date(), state: 'Відкрито'},
