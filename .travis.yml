@@ -38,6 +38,8 @@ jobs:
         provider: script
         skip_cleanup: true
         script:
+          - which scp
+          - ls frontend
           - scp -r frontend/dist ansible-deployer@gregory-k.me:/home/ansible-deployer
           - ssh ansible-deployer@gregory-k.me 'sudo ansible-pull --vault-id db@/etc/db_keyfile.txt -U https\://github.com/k-gregory/registry ansible/travis-deploy.yml'
         on:
