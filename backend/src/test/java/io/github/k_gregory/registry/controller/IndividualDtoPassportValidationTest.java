@@ -22,31 +22,7 @@ public class IndividualDtoPassportValidationTest {
     private final boolean isValid;
     private final Validator validator;
 
-    @Parameterized.Parameters(name= "{index}: isValid({0})={1}")
-    public static Iterable<Object[]> data() {
-        return Arrays.asList(new Object[][]{
-                        {"ТТ556556", true},
-                        {"ІВ998765", true},
-                        {"АА999999", true},
-                        {"ЯЯ000000", true},
-                        {"ЄА765456", true},
-                        {"ЇІ987678", true},
-
-                        {"JK123321", false},
-                        {"ЫВ123453", false},
-                        {"ЭВ123453", false},
-                        {"ЛЪ222453", false},
-                        {"ЇІІ987678", false},
-                        {"ЇІ9287678", false},
-                        {"11987678", false},
-                        {"ЇІИМАПМВ", false},
-                        {"ABCDEFGB", false}
-                }
-        );
-    }
-
-    public IndividualDtoPassportValidationTest(String passport, boolean isValid)
-    {
+    public IndividualDtoPassportValidationTest(String passport, boolean isValid) {
         this.isValid = isValid;
         this.individualDto = new IndividualDto();
 
@@ -61,15 +37,43 @@ public class IndividualDtoPassportValidationTest {
         validator = validatorFactory.getValidator();
     }
 
+    @Parameterized.Parameters(name = "{index}: isValid({0})={1}")
+    public static Iterable<Object[]> data() {
+        return Arrays.asList(new Object[][]{
+                        {"ТТ556556", true},
+                        {"ІВ998765", true},
+                        {"АА999999", true},
+                        {"ЯЯ000000", true},
+                        {"ЄА765456", true},
+                        {"ЇІ987678", true},
+                        {"ҐҐ658323", true},
+
+                        {"JK123321", false},
+                        {"ЫВ123453", false},
+                        {"ЭВ123453", false},
+                        {"ЛЪ222453", false},
+                        {"ЇІІ987678", false},
+                        {"ЇІ9287678", false},
+                        {"11987678", false},
+                        {"ЇІИМАПМВ", false},
+                        {"ABCDEFGB", false},
+                        {"Б1", false},
+                        {"БВ2", false},
+                        {"БАААААА", false},
+                        {"БАААА42", false},
+                        {"Б523456", false}
+                }
+        );
+    }
+
     @Test
     public void validatePassword() {
         Set<ConstraintViolation<IndividualDto>> constraints = validator.validate(individualDto);
         assertValid(constraints, isValid);
     }
 
-    private void assertValid(Set<ConstraintViolation<IndividualDto>> constraints, boolean valid)
-    {
-        if(valid)
+    private void assertValid(Set<ConstraintViolation<IndividualDto>> constraints, boolean valid) {
+        if (valid)
             assertThat(constraints).isEmpty();
         else
             assertThat(constraints).isNotEmpty();
