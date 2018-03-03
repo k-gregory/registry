@@ -37,7 +37,7 @@ class IndividualDto {
     private Date birthDate;
 
     @NotNull
-    @Pattern(regexp = "^(?:(?![ЫЪЭ])[А-ЯЄІЇ]){2}\\d{6}$", flags = Pattern.Flag.UNICODE_CASE)
+    @Pattern(regexp = "^(?:(?![ЫЪЭ])[А-ЯЄІЇҐ]){2}\\d{6}$", flags = Pattern.Flag.UNICODE_CASE)
     private String passport;
 
     public String getUid() {
