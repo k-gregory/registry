@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "swagger.host",
+      "type": "java.lang.String",
+      "description": "Host that is used by swagger ui"
+    }
+  ]
+}
