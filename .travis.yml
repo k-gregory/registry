@@ -18,6 +18,9 @@ jobs:
       before_install:
         - cd frontend
     - stage: deploy
+      language: node_js
+      node_js:
+        - "node"
       script: skip
       addons:
         ssh_known_hosts: gregory-k.me
@@ -27,10 +30,16 @@ jobs:
       - eval "$(ssh-agent -s)"
       - chmod 600 /tmp/ansible_key
       - ssh-add /tmp/ansible_key
+      - cd frontend
+      - npm install
+      - npm run build
+      - cd ..
       deploy:
         provider: script
         skip_cleanup: true
-        script: ssh ansible-deployer@gregory-k.me 'sudo ansible-pull --vault-id db@/etc/db_keyfile.txt -U https\://github.com/k-gregory/registry ansible/travis-deploy.yml'
+        script:
+          - ssh ansible-deployer@gregory-k.me 'cd /home/ansible-deployer && mkdir -p dist'
+          - scp frontend/dist/* ansible-deployer@gregory-k.me:/home/ansible-deployer/dist
+          - ssh ansible-deployer@gregory-k.me 'sudo ansible-pull --vault-id db@/etc/db_keyfile.txt -U https\://github.com/k-gregory/registry ansible/travis-deploy.yml'
         on:
-                branch: master
-
+          branch: master

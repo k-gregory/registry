@@ -1,34 +1,6 @@
-- name: Add APT key for Node
-  apt_key:
-    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key 
-    state: present
-
-- name: Add APT repository for node
-  apt_repository:
-    repo: "deb https://deb.nodesource.com/node_9.x xenial main"
-    state: present
-
-- name: Install Node
-  apt: name=nodejs state=present
-  
-- name: Clone repository
-  git:
-    force: yes
-    repo: 'https://github.com/k-gregory/registry.git'
-    dest: /home/registry/project
-  become: true
-  become_user: registry
-
-- name: Load dependencies
-  command: npm install
-  args:
-    chdir: /home/registry/project/frontend
-  become: true
-  become_user: registry
-  
-- name: Build project
-  command: npm run build
-  args:
-    chdir: /home/registry/project/frontend
-  become: true
-  become_user: registry
+- name: Copy compiled frontend
+  copy: 
+    src: dist
+    dest: /home/registry
+    owner: registry
+    group: registry

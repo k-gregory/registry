@@ -18,7 +18,7 @@ server {
         ssl_certificate_key /etc/ssl/gregory-k.me.key;
 
         location / {
-		 root /home/registry/project/frontend/dist;
+		 root /home/registry/dist;
 		 try_files $uri $uri/ /index.html;
 	}
 
