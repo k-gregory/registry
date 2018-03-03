@@ -3,6 +3,5 @@
   remote_user: root
   roles:
     - backend
-    - frontend
     - nginx-front
     - db
