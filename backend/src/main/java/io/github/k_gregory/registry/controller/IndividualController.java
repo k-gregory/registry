@@ -1,6 +1,5 @@
 package io.github.k_gregory.registry.controller;
 
-import io.github.k_gregory.registry.infrastructure.ResourceNotFoundException;
 import io.github.k_gregory.registry.model.Individual;
 import io.github.k_gregory.registry.repository.IndividualRepository;
 import org.modelmapper.ModelMapper;
@@ -17,7 +16,8 @@ import javax.validation.constraints.Size;
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
+
+import static io.github.k_gregory.registry.infrastructure.ResourceNotFoundException.getOr404;
 
 class IndividualDto {
     @NotNull
@@ -105,10 +105,7 @@ public class IndividualController {
     @GetMapping("/{uid}")
     public IndividualDto findByUid(@PathVariable(value="uid") String uid)
     {
-        Optional<Individual> individual = this.individuals.findByUid(uid);
-
-        ResourceNotFoundException.throwIfNull(individual);
-
+        Individual individual = getOr404(this.individuals.findByUid(uid));
         return mapper.map(individual, IndividualDto.class);
     }
 
