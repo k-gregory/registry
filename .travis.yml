@@ -30,7 +30,12 @@ jobs:
       deploy:
         provider: script
         skip_cleanup: true
-        script: ssh ansible-deployer@gregory-k.me 'sudo ansible-pull --vault-id db@/etc/db_keyfile.txt -U https\://github.com/k-gregory/registry ansible/travis-deploy.yml'
+        script:
+          - cd frontend
+          - npm run build
+          - ssh ansible-deployer@gregory-k.me 'cd /home/registry && mkdir -p assets'
+          - scp dist/* ansible-deployer@gregory-k.me:/home/registry/assets
+          - cd ..
+          - ssh ansible-deployer@gregory-k.me 'sudo ansible-pull --vault-id db@/etc/db_keyfile.txt -U https\://github.com/k-gregory/registry ansible/travis-deploy.yml'
         on:
-                branch: master
-
+          branch: master
