@@ -5,7 +5,6 @@ import io.github.k_gregory.registry.model.security.Group;
 import io.github.k_gregory.registry.repository.GroupRepository;
 import io.github.k_gregory.registry.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-@Primary
 public class SpringDataUserService implements UserService {
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
