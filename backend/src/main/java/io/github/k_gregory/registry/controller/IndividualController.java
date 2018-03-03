@@ -96,22 +96,19 @@ public class IndividualController {
     private final IndividualRepository individuals;
 
     @Autowired
-    public IndividualController(ModelMapper mapper, IndividualRepository individuals)
-    {
+    public IndividualController(ModelMapper mapper, IndividualRepository individuals) {
         this.mapper = mapper;
         this.individuals = individuals;
     }
 
     @GetMapping("/{uid}")
-    public IndividualDto findByUid(@PathVariable(value="uid") String uid)
-    {
+    public IndividualDto findByUid(@PathVariable("uid") String uid) {
         Individual individual = getOr404(this.individuals.findByUid(uid));
         return mapper.map(individual, IndividualDto.class);
     }
 
     @GetMapping("/search/{uid}")
-    public List<IndividualDto> findByUidPart(@PathVariable(value="uid") String uid)
-    {
+    public List<IndividualDto> findByUidPart(@PathVariable(value = "uid") String uid) {
         List<Individual> individuals = this.individuals.findByUidStartsWith(uid);
 
         Type listType = new TypeToken<List<IndividualDto>>() {}.getType();
