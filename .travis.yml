@@ -19,6 +19,8 @@ jobs:
         - cd frontend
     - stage: deploy
       language: node_js
+      node_js:
+        - "node"
       script: skip
       addons:
         ssh_known_hosts: gregory-k.me
@@ -31,6 +33,7 @@ jobs:
       - cd frontend
       - npm install
       - npm run build
+      - cd ..
       deploy:
         provider: script
         skip_cleanup: true
