@@ -48,8 +48,4 @@ public class IndividualDtoTest {
         Set<ConstraintViolation<IndividualDto>> constraints = validator.validate(invalidDto);
         assertThat(constraints).isNotEmpty();
     }
-
-    @Test
-    public void checkPassportRegexp() {
-    }
 }
