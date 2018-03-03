@@ -1,0 +1,6 @@
+- name: Copy compiled frontend
+  copy: 
+    src: dist
+    dest: /home/registry
+    owner: registry
+    group: registry
