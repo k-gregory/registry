@@ -16,12 +16,15 @@ import java.util.Collections;
 public class SwaggerConfig {
     @Bean
     public Docket registryApi() {
+        boolean debug = Boolean.parseBoolean(System.getenv("DEBUG"));
+        String host = debug ? "localhost:8080" : "gregory-k.me";
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("io.github.k_gregory.registry"))
                 .paths(PathSelectors.ant("/api/**"))
                 .build()
-                .host("gregory-k.me")
+                .host(host)
                 .pathMapping("/")
                 .enableUrlTemplating(true)
                 .produces(Collections.singleton("application/json"))
