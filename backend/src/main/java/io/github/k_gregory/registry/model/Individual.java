@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "individual_debtor")
-public class IndividualDebtor {
+@Table(name = "individual")
+public class Individual {
     @Id
     @Column(name = "uid", nullable = false)
     private String uid;

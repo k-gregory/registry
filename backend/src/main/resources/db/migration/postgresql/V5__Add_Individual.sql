@@ -1,4 +1,4 @@
-CREATE TABLE individual_debtor (
+CREATE TABLE individual (
   uid varchar(10) primary key not null,
   firstname varchar(100) not null,
   middlename varchar(100) not null,
@@ -7,7 +7,7 @@ CREATE TABLE individual_debtor (
   birthdate date not null
 );
 
-INSERT INTO individual_debtor (uid, firstName, middleName, lastName, passport, birthDate)
+INSERT INTO individual (uid, firstName, middleName, lastName, passport, birthDate)
   VALUES
     ('0780678710', 'Вася', 'Петрович', 'Пупкин', 'РП228229', '10/04/1960'),
     ('8719680716', 'Петя', 'Евгениевич', 'Васечкин', 'КП799583', '05/10/1978'),

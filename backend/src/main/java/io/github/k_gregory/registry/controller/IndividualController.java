@@ -1,8 +1,8 @@
 package io.github.k_gregory.registry.controller;
 
 import io.github.k_gregory.registry.infrastructure.ResourceNotFoundException;
-import io.github.k_gregory.registry.model.IndividualDebtor;
-import io.github.k_gregory.registry.repository.IndividualDebtorRepository;
+import io.github.k_gregory.registry.model.Individual;
+import io.github.k_gregory.registry.repository.IndividualRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.List;
 
-class IndividualDebtorDto {
+class IndividualDto {
     @NotNull
     @Size(min = 10, max = 10)
     private String uid;
@@ -89,35 +89,35 @@ class IndividualDebtorDto {
 }
 
 @RestController
-@RequestMapping("/api/individual/debtor")
-public class IndividualDebtorController {
+@RequestMapping("/api/individual")
+public class IndividualController {
     private ModelMapper mapper;
-    private IndividualDebtorRepository debtors;
+    private IndividualRepository individuals;
 
     @Autowired
-    public IndividualDebtorController(ModelMapper mapper, IndividualDebtorRepository debtors)
+    public IndividualController(ModelMapper mapper, IndividualRepository individuals)
     {
         this.mapper = mapper;
-        this.debtors = debtors;
+        this.individuals = individuals;
     }
 
     @GetMapping("/{uid}")
-    public IndividualDebtorDto findByUid(@PathVariable(value="uid") String uid)
+    public IndividualDto findByUid(@PathVariable(value="uid") String uid)
     {
-        IndividualDebtor debtor = this.debtors.findByUid(uid);
+        Individual individual = this.individuals.findByUid(uid);
 
-        if(debtor == null)
+        if(individual == null)
             throw new ResourceNotFoundException();
 
-        return mapper.map(debtor, IndividualDebtorDto.class);
+        return mapper.map(individual, IndividualDto.class);
     }
 
     @GetMapping("/search/{uid}")
-    public List<IndividualDebtorDto> findByUidPart(@PathVariable(value="uid") String uid)
+    public List<IndividualDto> findByUidPart(@PathVariable(value="uid") String uid)
     {
-        List<IndividualDebtor> debtors = this.debtors.findByUidStartsWith(uid);
+        List<Individual> individuals = this.individuals.findByUidStartsWith(uid);
 
-        Type listType = new TypeToken<List<IndividualDebtorDto>>() {}.getType();
-        return mapper.map(debtors, listType);
+        Type listType = new TypeToken<List<IndividualDto>>() {}.getType();
+        return mapper.map(individuals, listType);
     }
 }
