@@ -49,3 +49,11 @@ spring:
     url: jdbc:postgresql://localhost/registry
     username: postgres
     password: root
+---
+spring.profiles: integration-test
+spring:
+  jpa.hibernate.ddl-auto: update
+  flyway.locations: classpath:db/migration/h2
+logging.level:
+  org.hibernate.SQL: DEBUG
+  org.hibernate.type.descriptor.sql.BasicBinder: TRACE

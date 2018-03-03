@@ -27,7 +27,7 @@
   become_user: registry
 
 - name: Build project
-  command: ./gradlew build
+  command: ./gradlew build -x test
   args:
     chdir: /home/registry/project/backend
   environment:
