@@ -52,5 +52,7 @@ dependencies {
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.1'
     compile("org.modelmapper:modelmapper:1.1.0")
 
+    compile("org.springframework.boot:spring-boot-configuration-processor")
+
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

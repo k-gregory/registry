@@ -1,8 +1,8 @@
 CREATE TABLE individual (
   uid varchar(10) primary key not null,
-  firstname varchar(100) not null,
-  middlename varchar(100) not null,
-  lastname varchar(100) not null,
+  firstname text not null,
+  middlename text not null,
+  lastname text not null,
   passport varchar(8) not null,
   birthdate date not null
 );

@@ -17,6 +17,7 @@ import javax.validation.constraints.Size;
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 class IndividualDto {
     @NotNull
@@ -91,8 +92,8 @@ class IndividualDto {
 @RestController
 @RequestMapping("/api/individual")
 public class IndividualController {
-    private ModelMapper mapper;
-    private IndividualRepository individuals;
+    private final ModelMapper mapper;
+    private final IndividualRepository individuals;
 
     @Autowired
     public IndividualController(ModelMapper mapper, IndividualRepository individuals)
@@ -104,10 +105,9 @@ public class IndividualController {
     @GetMapping("/{uid}")
     public IndividualDto findByUid(@PathVariable(value="uid") String uid)
     {
-        Individual individual = this.individuals.findByUid(uid);
+        Optional<Individual> individual = this.individuals.findByUid(uid);
 
-        if(individual == null)
-            throw new ResourceNotFoundException();
+        ResourceNotFoundException.throwIfNull(individual);
 
         return mapper.map(individual, IndividualDto.class);
     }
