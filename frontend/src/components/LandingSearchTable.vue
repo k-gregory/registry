@@ -1,9 +1,13 @@
 <template>
     <section>
-        <div v-if="loading">Loading...</div>
-        <div v-if="error">{{ error }}</div>
+        <div class="container" v-if="error">
+            <b-message class="error" has-icon type="is-danger" title="Error">
+                {{ error }}
+            </b-message>
+        </div>
         <b-table
-                v-if="tableData.length"
+                v-if="!error"
+                :loading="loading"
                 :data="tableData"
                 detailed
                 detail-key="id">
@@ -28,32 +32,38 @@
     </section>
 </template>
 
-<script lang="ts">
-    import {Component, Vue} from "vue-property-decorator";
-    import DateViewOptions from "@/shared/DateViewOptions";
-    import {fetchTopEnforcements, TopEnforcement} from "@/api/enforsement";
+<style scoped>
+    .error {
+        max-width: 40em;
+    }
+</style>
 
-    @Component
-export default class LandingSearch extends Vue {
+<script lang="ts">
+  import {Component, Vue} from 'vue-property-decorator';
+  import DateViewOptions from '@/shared/DateViewOptions';
+  import {fetchTopEnforcements, TopEnforcement} from '@/api/enforcement';
+
+  @Component
+    export default class LandingSearch extends Vue {
         public error: string | null = null;
         public loading = true;
         public tableData: TopEnforcement[] = [];
         public dateViewOptions: DateViewOptions = {
-            year: "numeric", month: "long", day: "numeric",
+          year: 'numeric', month: 'long', day: 'numeric',
         };
 
         public created() {
-            this.fetchData();
+          this.fetchData();
         }
 
         private async fetchData() {
-            const r = await fetchTopEnforcements();
+          try {
+            this.tableData = await fetchTopEnforcements();
+          } catch (err) {
+            this.error = err.response.data.message;
+          } finally {
             this.loading = false;
-            if (typeof r === "string") {
-                this.error = r;
-            } else {
-                this.tableData = r;
-            }
+          }
         }
-}
+    }
 </script>

@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "strictPropertyInitialization": false,
 
     "target": "es2015",
     "module": "es2015",

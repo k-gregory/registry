@@ -1,9 +1,9 @@
 package io.github.k_gregory.registry.service;
 
-import io.github.k_gregory.registry.model.Enforcement;
+import io.github.k_gregory.registry.dto.TopEnforcementDTO;
 
 import java.util.List;
 
 public interface EnforcementService {
-    List<Enforcement> listTopEnforcements();
+    List<TopEnforcementDTO> listTopEnforcements();
 }

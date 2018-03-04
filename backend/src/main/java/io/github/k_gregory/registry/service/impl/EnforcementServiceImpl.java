@@ -1,6 +1,6 @@
 package io.github.k_gregory.registry.service.impl;
 
-import io.github.k_gregory.registry.model.Enforcement;
+import io.github.k_gregory.registry.dto.TopEnforcementDTO;
 import io.github.k_gregory.registry.repository.EnforcementRepository;
 import io.github.k_gregory.registry.service.EnforcementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class EnforcementServiceImpl implements EnforcementService {
     }
 
     @Override
-    public List<Enforcement> listTopEnforcements() {
-        return enforcements.findAll(PageRequest.of(0, 10, Sort.by("id"))).getContent();
+    public List<TopEnforcementDTO> listTopEnforcements() {
+        return enforcements.findTop(PageRequest.of(0, 10, Sort.by("id")));
     }
 }

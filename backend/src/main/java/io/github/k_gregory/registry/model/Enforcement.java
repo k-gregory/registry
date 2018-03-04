@@ -1,6 +1,7 @@
 package io.github.k_gregory.registry.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "enforcement")
@@ -15,6 +16,13 @@ public class Enforcement {
 
     @Column(name = "receiver", nullable = false)
     private String receiver;
+
+    @Column(name= "started_at", nullable = false)
+    private Date startedAt;
+
+    @Column(name = "state", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EnforcementState state;
 
     @ManyToOne
     private Facility facility;
@@ -49,5 +57,21 @@ public class Enforcement {
 
     public void setFacility(Facility facility) {
         this.facility = facility;
+    }
+
+    public Date getStartedAt() {
+        return startedAt;
+    }
+
+    public void setStartedAt(Date startedAt) {
+        this.startedAt = startedAt;
+    }
+
+    public EnforcementState getState() {
+        return state;
+    }
+
+    public void setState(EnforcementState state) {
+        this.state = state;
     }
 }
