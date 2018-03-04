@@ -3,7 +3,7 @@ package io.github.k_gregory.registry.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "solution")
+@Table(name = "enforcement")
 public class Enforcement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
