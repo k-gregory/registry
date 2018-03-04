@@ -82,12 +82,12 @@ public class EnforcementServiceIntegrationTest extends AbstractIntegrationTest {
 
         assertThat(topEnforcements).size().isEqualTo(1);
         assertThat(topEnforcements).first().satisfies(enforcement->{
-            assertThat(enforcement.id).isEqualTo(newEnforcement.getId());
-            assertThat(enforcement.sender).isEqualTo("ZEE-SENDER");
-            assertThat(enforcement.receiver).isEqualTo("ZEE-RECEIVER");
-            assertThat(enforcement.facilityName).isEqualTo("Zee-Facility");
-            assertThat(enforcement.startedAt.getTime()).isEqualTo(new Date(42).getTime());
-            assertThat(enforcement.state).isEqualTo(EnforcementState.CLOSED);
+            assertThat(enforcement.getId()).isEqualTo(newEnforcement.getId());
+            assertThat(enforcement.getSender()).isEqualTo("ZEE-SENDER");
+            assertThat(enforcement.getReceiver()).isEqualTo("ZEE-RECEIVER");
+            assertThat(enforcement.getFacilityName()).isEqualTo("Zee-Facility");
+            assertThat(enforcement.getStartedAt().getTime()).isEqualTo(new Date(42).getTime());
+            assertThat(enforcement.getState()).isEqualTo(EnforcementState.CLOSED);
         });
     }
 
