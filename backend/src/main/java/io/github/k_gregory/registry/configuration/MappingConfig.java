@@ -16,7 +16,7 @@ public class MappingConfig {
     }
 
     @Autowired
-    public void mapTopEnforcementDTO(ModelMapper mapper){
+    public static void mapTopEnforcementDTO(ModelMapper mapper){
         TypeMap<Enforcement, TopEnforcementDTO> map = mapper.createTypeMap(Enforcement.class, TopEnforcementDTO.class);
         map.addMapping(src->src.getFacility().getName(), TopEnforcementDTO::setFacilityName);
     }
