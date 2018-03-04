@@ -1,9 +1,12 @@
 <template>
     <section>
+        <div v-if="loading">Loading...</div>
+        <div v-if="error">{{ error }}</div>
         <b-table
-            :data="tableData"
-            detailed
-            detail-key="id">
+                v-if="tableData.length"
+                :data="tableData"
+                detailed
+                detail-key="id">
             <template slot-scope="props">
                 <b-table-column label="№ АСВП" width="50">
                     {{props.row.id}}
@@ -26,41 +29,31 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import DateViewOptions from '@/shared/DateViewOptions';
+    import {Component, Vue} from "vue-property-decorator";
+    import DateViewOptions from "@/shared/DateViewOptions";
+    import {fetchTopEnforcements, TopEnforcement} from "@/api/enforsement";
 
-interface LandingSearchRow {
-    id: number;
-    facility: string;
-    date: Date;
-    state: string;
-}
-interface LandingSearchData {
-    tableData: LandingSearchRow[];
-    dateViewOptions: DateViewOptions;
-}
-
-@Component
+    @Component
 export default class LandingSearch extends Vue {
-  public data(): LandingSearchData {
-      const tableData = [
-          {id: 112228, facility: 'Вишневецьке УСОЯОРОРО імені Скоропадського',
-            date: new Date(), state: 'Відкрито'},
-          {id: 2212328, facility: 'Дарницьке АСОІОУ імені Васюка',
-            date: new Date(), state: 'Відкрито'},
-          {id: 32131321, facility: 'КРинацьке ВАСОУ імені Сікорського',
-            date: new Date(), state: 'Закрито'},
-          {id: 2212312328, facility: 'Шевченківське КРПАН імені Лобачевського',
-            date: new Date(), state: 'На примусовому виконанні'},
-          {id: 22123128, facility: 'Рололітове УСОЯОРОРО імені Сікорського',
-            date: new Date(), state: 'Відмовлено у відкритті'},
-      ];
-      return {
-          tableData,
-          dateViewOptions: {
-              year: 'numeric', month: 'long', day: 'numeric',
-            },
-      };
-  }
+        public error: string | null = null;
+        public loading = true;
+        public tableData: TopEnforcement[] = [];
+        public dateViewOptions: DateViewOptions = {
+            year: "numeric", month: "long", day: "numeric",
+        };
+
+        public created() {
+            this.fetchData();
+        }
+
+        private async fetchData() {
+            const r = await fetchTopEnforcements();
+            this.loading = false;
+            if (typeof r === "string") {
+                this.error = r;
+            } else {
+                this.tableData = r;
+            }
+        }
 }
 </script>
