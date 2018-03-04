@@ -1,31 +1,16 @@
-package io.github.k_gregory.registry.model;
+package io.github.k_gregory.registry.dto;
 
-import javax.persistence.*;
+import io.github.k_gregory.registry.model.EnforcementState;
+
 import java.util.Date;
 
-@Entity
-@Table(name = "enforcement")
-public class Enforcement {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
+public class TopEnforcementDTO {
     private Long id;
-
-    @Column(name = "sender", nullable = false)
     private String sender;
-
-    @Column(name = "receiver", nullable = false)
     private String receiver;
-
-    @Column(name= "started_at", nullable = false)
+    private String facilityName;
     private Date startedAt;
-
-    @Column(name = "state", nullable = false)
-    @Enumerated(EnumType.STRING)
     private EnforcementState state;
-
-    @ManyToOne
-    private Facility facility;
 
     public Long getId() {
         return id;
@@ -51,12 +36,12 @@ public class Enforcement {
         this.receiver = receiver;
     }
 
-    public Facility getFacility() {
-        return facility;
+    public String getFacilityName() {
+        return facilityName;
     }
 
-    public void setFacility(Facility facility) {
-        this.facility = facility;
+    public void setFacilityName(String facilityName) {
+        this.facilityName = facilityName;
     }
 
     public Date getStartedAt() {

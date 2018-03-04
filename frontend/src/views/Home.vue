@@ -20,43 +20,35 @@
         <button class="button is-primary">Увійти</button>
       </div>
     </nav>
-    <section class="search">
-      <div class="container">
-        <LandingSearchTable>
-        </LandingSearchTable>
-      </div>
-    </section>
+    <div class="container">
+      <LandingSearchTable></LandingSearchTable>
+     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import LandingSearchTable from '@/components/LandingSearchTable.vue'; // @ is an alias to /src
+  import {Component, Vue} from 'vue-property-decorator';
+  import LandingSearchTable from '@/components/LandingSearchTable.vue'; // @ is an alias to /src
 
-interface HomePageData {
-  searchQuery: string;
-}
-
-@Component({
-  components: {
-    LandingSearchTable,
-  },
-})
-export default class Home extends Vue {
-  public data(): HomePageData {
-    return {
-      searchQuery: '',
-    };
+  interface HomePageData {
+    searchQuery: string;
   }
-}
+
+  @Component({
+    components: {
+      LandingSearchTable,
+    },
+  })
+  export default class Home extends Vue {
+    public data(): HomePageData {
+      return {
+        searchQuery: '',
+      };
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
-
-.search {
-  padding-top: 50px;
-}
-
 .toolbar {
   padding: 20px 0;
 }

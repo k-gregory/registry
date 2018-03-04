@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "buefy": "^0.6.3",
     "bulma": "^0.6.2",
     "mdi": "^2.1.19",

@@ -1,9 +1,16 @@
 <template>
     <section>
+        <div class="container" v-if="error">
+            <b-message class="error" has-icon type="is-danger" title="Error">
+                {{ error }}
+            </b-message>
+        </div>
         <b-table
-            :data="tableData"
-            detailed
-            detail-key="id">
+                v-if="!error"
+                :loading="loading"
+                :data="tableData"
+                detailed
+                detail-key="id">
             <template slot-scope="props">
                 <b-table-column label="№ АСВП" width="50">
                     {{props.row.id}}
@@ -25,42 +32,38 @@
     </section>
 </template>
 
+<style scoped>
+    .error {
+        max-width: 40em;
+    }
+</style>
+
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import DateViewOptions from '@/shared/DateViewOptions';
+  import {Component, Vue} from 'vue-property-decorator';
+  import DateViewOptions from '@/shared/DateViewOptions';
+  import {fetchTopEnforcements, TopEnforcement} from '@/api/enforcement';
 
-interface LandingSearchRow {
-    id: number;
-    facility: string;
-    date: Date;
-    state: string;
-}
-interface LandingSearchData {
-    tableData: LandingSearchRow[];
-    dateViewOptions: DateViewOptions;
-}
+  @Component
+    export default class LandingSearch extends Vue {
+        public error: string | null = null;
+        public loading = true;
+        public tableData: TopEnforcement[] = [];
+        public dateViewOptions: DateViewOptions = {
+          year: 'numeric', month: 'long', day: 'numeric',
+        };
 
-@Component
-export default class LandingSearch extends Vue {
-  public data(): LandingSearchData {
-      const tableData = [
-          {id: 112228, facility: 'Вишневецьке УСОЯОРОРО імені Скоропадського',
-            date: new Date(), state: 'Відкрито'},
-          {id: 2212328, facility: 'Дарницьке АСОІОУ імені Васюка',
-            date: new Date(), state: 'Відкрито'},
-          {id: 32131321, facility: 'КРинацьке ВАСОУ імені Сікорського',
-            date: new Date(), state: 'Закрито'},
-          {id: 2212312328, facility: 'Шевченківське КРПАН імені Лобачевського',
-            date: new Date(), state: 'На примусовому виконанні'},
-          {id: 22123128, facility: 'Рололітове УСОЯОРОРО імені Сікорського',
-            date: new Date(), state: 'Відмовлено у відкритті'},
-      ];
-      return {
-          tableData,
-          dateViewOptions: {
-              year: 'numeric', month: 'long', day: 'numeric',
-            },
-      };
-  }
-}
+        public created() {
+          this.fetchData();
+        }
+
+        private async fetchData() {
+          try {
+            this.tableData = await fetchTopEnforcements();
+          } catch (err) {
+            this.error = err.response.data.message;
+          } finally {
+            this.loading = false;
+          }
+        }
+    }
 </script>
