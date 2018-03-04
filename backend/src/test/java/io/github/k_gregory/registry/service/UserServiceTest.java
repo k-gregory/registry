@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
 
 
-public class SpringDataUserServiceTest extends AbstractIntegrationTest {
+public class UserServiceTest extends AbstractIntegrationTest {
     @Autowired
     private EntityManager em;
 
