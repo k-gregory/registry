@@ -1,9 +1,10 @@
-package io.github.k_gregory.registry.service;
+package io.github.k_gregory.registry.service.impl;
 
 import io.github.k_gregory.registry.model.security.AppUser;
 import io.github.k_gregory.registry.model.security.Group;
 import io.github.k_gregory.registry.repository.GroupRepository;
 import io.github.k_gregory.registry.repository.UserRepository;
+import io.github.k_gregory.registry.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

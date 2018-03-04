@@ -26,7 +26,7 @@ public class SpringDataUserServiceTest extends AbstractIntegrationTest {
     private EntityManager em;
 
     @Autowired
-    private SpringDataUserService userService;
+    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
