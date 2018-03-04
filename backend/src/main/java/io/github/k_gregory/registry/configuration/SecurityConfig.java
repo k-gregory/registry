@@ -23,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/",
             "/register",
             "/facility", "/facility/**",
+            "/api/enforcement/top",
 
             // -- swagger ui
             "/swagger-resources/**",
