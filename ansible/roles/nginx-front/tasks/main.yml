@@ -17,8 +17,11 @@
   notify: Restart nginx
 
 - name: Copy nginx configuration
-  copy: src=registry dest=/etc/nginx/sites-available
+  copy: src={{ item }} dest=/etc/nginx/{{ item }}
   notify: Restart nginx
+  with_items:
+    - sites-available/registry
+    - json_errors
 
 - name: Enable nginx site
   file:
