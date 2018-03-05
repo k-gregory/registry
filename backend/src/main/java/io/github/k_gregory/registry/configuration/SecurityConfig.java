@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -39,18 +40,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // @formatter:off
         http
                 .authorizeRequests()
-                .antMatchers(AUTH_WHITELIST).permitAll()
-                .anyRequest().authenticated().and()
+                    .antMatchers(AUTH_WHITELIST).permitAll()
+                    .anyRequest().authenticated().and()
                 .formLogin()
-                .loginPage("/login")
-                .permitAll().and()
+                    .loginPage("/login")
+                    .permitAll().and()
                 .logout()
-                .permitAll().and()
+                    .logoutUrl("/logout")
+                    .permitAll().and()
                 .rememberMe()
-                .rememberMeParameter("remember-me")
-                .tokenRepository(tokenRepository());
+                    .rememberMeParameter("remember-me")
+                    .tokenRepository(tokenRepository()).and()
+                .exceptionHandling()
+                    .authenticationEntryPoint(forbiddenEntryPoint());
+        // @formatter:on
+    }
+
+    //To prevent redirect to login page
+    @Bean
+    public Http403ForbiddenEntryPoint forbiddenEntryPoint() {
+        return new Http403ForbiddenEntryPoint();
     }
 
     @Bean

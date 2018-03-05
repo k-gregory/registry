@@ -29,5 +29,7 @@ server {
         location ~ ^/(login|api|webjars) {
                 proxy_pass http://localhost:8080;
         }
+	
+	include json_errors;
 }
 

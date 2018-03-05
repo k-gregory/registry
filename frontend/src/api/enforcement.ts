@@ -16,7 +16,7 @@ function mapEnforcement(v: any): TopEnforcement {
     };
 }
 
-export async function fetchTopEnforcements(): Promise<TopEnforcement[]> {
-    const response = await axios.get('/api/enforcement/top');
-    return response.data.map(mapEnforcement);
-}
+export const fetchTopEnforcements = () => axios
+    .get('/api/enforcement/top')
+    .then((response) => response.data.map(mapEnforcement));
+

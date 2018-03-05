@@ -1,14 +1,12 @@
 <template>
     <section>
-        <div class="container" v-if="error">
-            <b-message class="error" has-icon type="is-danger" title="Error">
-                {{ error }}
-            </b-message>
-        </div>
+        <b-message v-if="tableState.failed" class="error" has-icon type="is-danger" :title="tableState.error">
+            {{ tableState.message }}
+        </b-message>
         <b-table
-                v-if="!error"
-                :loading="loading"
-                :data="tableData"
+                v-if="!tableState.failed"
+                :loading="tableState.loading"
+                :data="tableState.data"
                 detailed
                 detail-key="id">
             <template slot-scope="props">
@@ -39,31 +37,35 @@
 </style>
 
 <script lang="ts">
-  import {Component, Vue} from 'vue-property-decorator';
-  import DateViewOptions from '@/shared/DateViewOptions';
-  import {fetchTopEnforcements, TopEnforcement} from '@/api/enforcement';
+    import {Component, Vue} from 'vue-property-decorator';
+    import DateViewOptions from '@/shared/DateViewOptions';
+    import {fetchTopEnforcements, TopEnforcement} from '@/api/enforcement';
+    import {LoadingState, loadingProgress, loadingError, loadedData} from '@/shared/LoadingState';
 
-  @Component
+    @Component
     export default class LandingSearch extends Vue {
-        public error: string | null = null;
-        public loading = true;
-        public tableData: TopEnforcement[] = [];
+        public tableState: LoadingState<TopEnforcement[]> = loadingProgress();
+
         public dateViewOptions: DateViewOptions = {
-          year: 'numeric', month: 'long', day: 'numeric',
+            year: 'numeric', month: 'long', day: 'numeric',
         };
 
         public created() {
-          this.fetchData();
+            this.fetchData();
+            setInterval(() => {
+                this.fetchData();
+            }, 3000);
         }
 
         private async fetchData() {
-          try {
-            this.tableData = await fetchTopEnforcements();
-          } catch (err) {
-            this.error = err.response.data.message;
-          } finally {
-            this.loading = false;
-          }
+            try {
+                this.tableState = loadingProgress(this.tableState.data);
+                const data = await fetchTopEnforcements();
+                this.tableState = loadedData(data);
+            } catch (err) {
+                const data = err.response.data;
+                this.tableState = loadingError(data.error, data.message);
+            }
         }
     }
 </script>
