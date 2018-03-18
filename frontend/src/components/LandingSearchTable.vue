@@ -63,8 +63,10 @@
                 const data = await fetchTopEnforcements();
                 this.tableState = loadedData(data);
             } catch (err) {
-                const data = err.response.data;
-                this.tableState = loadingError(data.error, data.message);
+                if(err.response)
+                  this.tableState = loadingError(err.response.data.error, err.response.data.message);
+                else
+                  this.tableState = loadingError("Unknown error", "lol");
             }
         }
     }
