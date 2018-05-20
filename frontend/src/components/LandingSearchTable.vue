@@ -24,7 +24,7 @@
                 </b-table-column>
             </template>
             <template slot="detail" slot-scope="props">
-                Тут повинна бути інформація про боржників та стягувачів для впровадження номер {{props.row.id}}
+                Тут повинна бути інформація про боржників та стягувачів для впровадження номер {{props.row.id}}.
             </template>
         </b-table>
     </section>
