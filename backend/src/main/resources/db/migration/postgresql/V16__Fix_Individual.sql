@@ -14,3 +14,8 @@ ALTER TABLE public.individual
   RENAME COLUMN middlename TO surname;
 ALTER TABLE public.individual
   RENAME COLUMN lastname TO middle_name;
+ALTER TABLE public.individual
+  ADD user_id bigint;
+ALTER TABLE public.individual
+  ADD CONSTRAINT individual_user_id_fk
+FOREIGN KEY (user_id) REFERENCES app_user (id);
