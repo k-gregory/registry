@@ -31,7 +31,7 @@
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator';
   import LandingSearchTable from '@/components/LandingSearchTable.vue';
-  import EnforcementForm from "@/components/EnforcementForm.vue"; // @ is an alias to /src
+  import EnforcementForm from '@/components/EnforcementForm.vue'; // @ is an alias to /src
 
   interface HomePageData {
     searchQuery: string;

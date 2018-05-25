@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Enforcement} from "@/model/Enforcement";
+import {Enforcement} from '@/model/Enforcement';
 
 export interface TopEnforcement {
     id: number;
@@ -23,5 +23,5 @@ export const fetchTopEnforcements = () => axios
 
 export const postEnforcement = (data: Enforcement) => axios
     .post('/api/enforcement/add', data)
-    .then((response)=> response.data);
+    .then((response) => response.data);
 
