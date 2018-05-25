@@ -1,5 +1,19 @@
+import axios from 'axios';
+
 export interface Executant {
     id: number;
-    fullname: string;
-    phone: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    phoneNumber: string;
+}
+
+export function getFullName(executant: Executant): string {
+    return `${executant.firstName} ${executant.middleName} ${executant.lastName}`;
+}
+
+export function fetchExecutants(): Promise<Executant[]> {
+    return axios
+        .get('/api/executant')
+        .then((response) => response.data);
 }

@@ -22,7 +22,7 @@
         </section>
     </div>
     <b-modal :active.sync="isEditUserModalActive">
-        <ExecutantEditModal></ExecutantEditModal>
+        <ExecutantEditModal :executant="selectedUser"></ExecutantEditModal>
     </b-modal>
   </div>
 

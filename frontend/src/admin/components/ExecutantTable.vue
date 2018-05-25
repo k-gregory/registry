@@ -8,16 +8,16 @@
                 :data="tableState.data"
                 :row-class="(r, i) => 'clickable'">
             <template slot-scope="props">
-                <b-table-column label="ID" width="40" numeric>
+                <b-table-column label="Ідентифікатор" width="40">
                     {{ props.row.id }}
                 </b-table-column>
 
-                <b-table-column field="fullname" sortable label="Full Name">
-                    {{ props.row.fullname }}
+                <b-table-column label="Повне ім'я" sortable :custom-sort="sortByName">
+                    {{ getFullName(props.row) }}
                 </b-table-column>
 
-                <b-table-column label="Phone" centered>
-                    {{ props.row.phone }}
+                <b-table-column label="Телефон" centered>
+                    {{ props.row.phoneNumber }}
                 </b-table-column>
             </template>
 
@@ -28,11 +28,11 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 
-import {Executant} from '@/api/executant';
+import {Executant, getFullName, fetchExecutants} from '@/api/executant';
 import {Events} from '@/admin/shared/events';
 import {LoadingState, loadingProgress, loadingError, loadedData} from '@/shared/LoadingState';
 
-@Component
+@Component({})
 export default class ExecutantTable extends Vue {
     public tableState: LoadingState<Executant[]> = loadingProgress();
 
@@ -44,10 +44,24 @@ export default class ExecutantTable extends Vue {
         this.$emit(Events.UsersTableRowClick, rowItem);
     }
 
+    public sortByName(a: Executant, b: Executant, isAsc: boolean): number {
+        if (isAsc) {
+            const tmp = a;
+            a = b;
+            b = tmp;
+        }
+
+        return getFullName(a).localeCompare(getFullName(b));
+    }
+
     private async fetchData() {
-        const data: Executant[] = [{fullname: 'Maxim Petrovich Petrov', phone: '+380990990099', id: 1},
-            {fullname: 'Maxim1 Petrovich1 Petrov1', phone: '+380990990099', id: 2}];
+        this.tableState = loadingProgress(this.tableState.data);
+        const data: Executant[] = await fetchExecutants();
         this.tableState = loadedData(data);
+    }
+
+    private getFullName(e: Executant): string {
+        return getFullName(e);
     }
 }
 </script>

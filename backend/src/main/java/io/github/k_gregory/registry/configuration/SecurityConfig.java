@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] AUTH_WHITELIST = {
-            "/api/enforcement/top",
+            "/api/**", // TODO: add authorization
             // -- swagger ui
             "/swagger-resources/**",
             "/swagger-ui.html",
