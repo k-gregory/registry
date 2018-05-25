@@ -21,6 +21,7 @@
       </div>
     </nav>
     <div class="container">
+      <router-link to="/add">Add enforcement</router-link>
       <LandingSearchTable></LandingSearchTable>
      </div>
   </div>
