@@ -54,7 +54,7 @@
             this.fetchData();
             setInterval(() => {
                 this.fetchData();
-            }, 3000);
+            }, 300000);
         }
 
         private async fetchData() {
