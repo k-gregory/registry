@@ -57,4 +57,4 @@ spring:
   flyway.locations: classpath:db/migration/h2
 logging.level:
   org.hibernate.SQL: DEBUG
-  org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  org.hibernate.type.descriptor.sql.BasicBinder: TRACEe

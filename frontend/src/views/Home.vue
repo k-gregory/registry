@@ -21,6 +21,8 @@
       </div>
     </nav>
     <div class="container">
+      <EnforcementForm/>
+      <router-link to="/add">Add enforcement from separate page</router-link>
       <LandingSearchTable></LandingSearchTable>
      </div>
   </div>
@@ -28,7 +30,8 @@
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator';
-  import LandingSearchTable from '@/components/LandingSearchTable.vue'; // @ is an alias to /src
+  import LandingSearchTable from '@/components/LandingSearchTable.vue';
+  import EnforcementForm from '@/components/EnforcementForm.vue'; // @ is an alias to /src
 
   interface HomePageData {
     searchQuery: string;
@@ -36,6 +39,7 @@
 
   @Component({
     components: {
+        EnforcementForm,
       LandingSearchTable,
     },
   })

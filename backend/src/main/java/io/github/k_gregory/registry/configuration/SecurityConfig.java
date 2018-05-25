@@ -22,6 +22,7 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] AUTH_WHITELIST = {
             "/api/enforcement/top",
+            "/api/enforcement/add",
             // -- swagger ui
             "/swagger-resources/**",
             "/swagger-ui.html",
@@ -42,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
+                .csrf().disable() // FIXME: Insecure
                 .authorizeRequests()
                     .antMatchers(AUTH_WHITELIST).permitAll()
                     .anyRequest().authenticated().and()
