@@ -36,7 +36,7 @@ import {LoadingState, loadingProgress, loadingError, loadedData} from '@/shared/
 export default class ExecutantTable extends Vue {
     public tableState: LoadingState<Executant[]> = loadingProgress();
 
-    public created() {
+    public created(): void {
         this.fetchData();
     }
 
@@ -54,7 +54,7 @@ export default class ExecutantTable extends Vue {
         return getFullName(a).localeCompare(getFullName(b));
     }
 
-    private async fetchData() {
+    private async fetchData(): Promise<void> {
         this.tableState = loadingProgress(this.tableState.data);
         const data: Executant[] = await fetchExecutants();
         this.tableState = loadedData(data);

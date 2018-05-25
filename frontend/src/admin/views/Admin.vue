@@ -52,7 +52,7 @@
         this.selectedUser = null;
     }
 
-    public onRowClick(rowItem: Executant) {
+    public onRowClick(rowItem: Executant): void {
         this.selectedUser = rowItem;
         this.isEditUserModalActive = true;
     }

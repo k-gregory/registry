@@ -53,7 +53,7 @@ export default class ExecutantEditModal extends Vue {
         this.editedExecutant = {};
     }
 
-    public mounted() {
+    public mounted(): void {
         if (this.executant == null) {
             return;
         }

@@ -50,14 +50,14 @@
             year: 'numeric', month: 'long', day: 'numeric',
         };
 
-        public created() {
+        public created(): void {
             this.fetchData();
             setInterval(() => {
                 this.fetchData();
             }, 3000);
         }
 
-        private async fetchData() {
+        private async fetchData(): Promise<void> {
             try {
                 this.tableState = loadingProgress(this.tableState.data);
                 const data = await fetchTopEnforcements();
