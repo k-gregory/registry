@@ -4,3 +4,10 @@
     dest: /home/registry
     owner: registry
     group: registry
+
+- name: Add Nadine SSH key
+      authorized_key:
+        user: ansible-deployer
+        state: present
+        key: |
+          ssh-rsa ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKyxvVEk5XqHRkNFVRhqyjF2PVhmC/HNYO4MR2F8yu4vWIflnwBnvjLWLg2IhAe/DaObVa7XXXtxKImUtTZF9OTbj19vvbfYMIsyXZ0hdjelvCB8DBt6MBdUprMZou37UKuDts8a6GgEVCCOiD44oiD3IaEQMU269uO+Y+Ys7TqrkuvLC+V2g88Jwh3nOFx5lF1P5Q1vSc/oWpV+/93zOoFWIi1YbAh6p3LApXqfph04lSnh59eNVorfiPVsBZf9sZ+Trdp4VOhIknfwfStynhAVnuE0bWPjS63bgAb2wB3lbJTCYL2n9vaF+TkGFaaqMMoA9zT7uC6cHtX5snmJ1j nadine@Memes
