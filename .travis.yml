@@ -2,6 +2,8 @@ jobs:
   include:
     - stage: Test
       language: java
+      addons:
+        postgresql: "10.4"
       services:
         - postgresql
       before_script:
