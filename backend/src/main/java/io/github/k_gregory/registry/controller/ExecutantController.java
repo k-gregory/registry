@@ -26,7 +26,7 @@ public class ExecutantController {
     }
 
     @GetMapping
-    public List<ExecutantDTO> topEnforcements() {
+    public List<ExecutantDTO> getAllExecutants() {
         List<Executant> executants = repository.fetchAllWithFacility();
         Type type = new TypeToken<List<ExecutantDTO>>() {}.getType();
         return mapper.map(executants, type);
