@@ -1,30 +1,13 @@
-package io.github.k_gregory.registry.model;
+package io.github.k_gregory.registry.dto;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "executant")
-public class Executant {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
+public class ExecutantDTO {
     private Long id;
-
-    @Column(name = "first_name", nullable = false)
     private String firstName;
-
-    @Column(name = "middle_name", nullable = false)
     private String middleName;
-
-    @Column(name = "last_name", nullable = false)
     private String lastName;
-
-    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
-
-    @ManyToOne
-    @JoinColumn(name = "facility_id")
-    private Facility facility;
+    private Long facilityId;
+    private String facilityName;
 
     public Long getId() {
         return id;
@@ -66,11 +49,19 @@ public class Executant {
         this.phoneNumber = phoneNumber;
     }
 
-    public Facility getFacility() {
-        return facility;
+    public Long getFacilityId() {
+        return facilityId;
     }
 
-    public void setFacility(Facility facility) {
-        this.facility = facility;
+    public void setFacilityId(Long facilityId) {
+        this.facilityId = facilityId;
+    }
+
+    public String getFacilityName() {
+        return facilityName;
+    }
+
+    public void setFacilityName(String facilityName) {
+        this.facilityName = facilityName;
     }
 }
