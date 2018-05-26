@@ -3,6 +3,7 @@ package io.github.k_gregory.registry.service.impl;
 import io.github.k_gregory.registry.dto.ExecutantCreateRequest;
 import io.github.k_gregory.registry.dto.ExecutantDTO;
 import io.github.k_gregory.registry.dto.ExecutantUpdateRequest;
+import io.github.k_gregory.registry.infrastructure.RegistryApplicationException;
 import io.github.k_gregory.registry.model.Executant;
 import io.github.k_gregory.registry.model.Facility;
 import io.github.k_gregory.registry.repository.ExecutantRepository;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
+
+import static io.github.k_gregory.registry.infrastructure.ResourceNotFoundException.checked;
 
 @Service
 public class ExecutantServiceImpl implements ExecutantService {
@@ -39,38 +42,45 @@ public class ExecutantServiceImpl implements ExecutantService {
         Type type = new TypeToken<List<ExecutantDTO>>() {}.getType();
         return mapper.map(executants, type);    }
 
+    @Transactional
     @Override
     public ExecutantDTO create(ExecutantCreateRequest request) {
-        Optional<Facility> facility = facilityRepository.findById(request.getFacilityId());
+        Optional<Facility> found = facilityRepository.findById(request.getFacilityId());
 
-        if(!facility.isPresent())
-            return null;
-
+        Facility facility = RegistryApplicationException.checked(found, "Could not create executant. Provided facility does not exist.");
         Executant executant = new Executant();
         executant.setFirstName(request.getFirstName());
         executant.setMiddleName(request.getMiddleName());
         executant.setLastName(request.getLastName());
         executant.setPhoneNumber(request.getPhoneNumber());
-        executant.setFacility(facility.get());
+        executant.setFacility(facility);
 
         repository.save(executant);
         return mapper.map(executant, ExecutantDTO.class);
     }
 
-    @Override
     @Transactional
+    @Override
     public ExecutantDTO update(Long id, ExecutantUpdateRequest request) {
         Optional<Executant> found = repository.findById(id);
 
-        if(!found.isPresent())
-            return null;
-
-        Executant executant = found.get();
+        Executant executant = checked(found);
         executant.setFirstName(request.getFirstName());
         executant.setMiddleName(request.getMiddleName());
         executant.setLastName(request.getLastName());
 
         repository.save(executant);
         return mapper.map(executant, ExecutantDTO.class);
+    }
+
+    @Transactional
+    @Override
+    public void delete(Long id) {
+        Optional<Executant> found = repository.findById(id);
+
+        if(!found.isPresent())
+            return;
+
+        repository.delete(found.get());
     }
 }
