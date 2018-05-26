@@ -19,6 +19,10 @@
                 <b-table-column label="Телефон" centered>
                     {{ props.row.phoneNumber }}
                 </b-table-column>
+
+                <b-table-column label="ДВС" sortable field="facilityName">
+                    {{ props.row.facilityName }}
+                </b-table-column>
             </template>
 
         </b-table>

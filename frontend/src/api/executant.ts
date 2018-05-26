@@ -6,6 +6,8 @@ export interface Executant {
     middleName: string;
     lastName: string;
     phoneNumber: string;
+    facilityName: string;
+    facilityId: number;
 }
 
 export function getFullName(executant: Executant): string {
