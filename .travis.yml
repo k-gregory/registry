@@ -3,7 +3,7 @@ jobs:
     - stage: Test
       language: java
       addons:
-        postgresql: "10.4"
+        postgresql: "10"
       services:
         - postgresql
       before_script:
