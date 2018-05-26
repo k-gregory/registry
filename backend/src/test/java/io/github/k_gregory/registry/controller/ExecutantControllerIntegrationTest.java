@@ -1,6 +1,5 @@
 package io.github.k_gregory.registry.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.k_gregory.registry.AbstractIntegrationTest;
 import io.github.k_gregory.registry.model.Executant;
 import io.github.k_gregory.registry.model.Facility;
@@ -10,15 +9,15 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.persistence.EntityManager;
 
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class ExecutantControllerIntegrationTest extends AbstractIntegrationTest {
@@ -29,6 +28,9 @@ public class ExecutantControllerIntegrationTest extends AbstractIntegrationTest 
 
     @Autowired
     private EntityManager em;
+
+    @Autowired
+    private ExecutantRepository executantRepository;
 
     private final String FACILITY_NAME = "TestFacility";
     private Facility facility;
@@ -58,9 +60,9 @@ public class ExecutantControllerIntegrationTest extends AbstractIntegrationTest 
         executantRepository.save(executant);
         executantRepository.save(build("someName"));
 
-        ResultActions actions = mvc.perform(
-                get("/api/executant")
-                        .accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+        mvc.perform(
+            get("/api/executant")
+                    .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"))
                 .andExpect(jsonPath("$", hasSize(2)))
