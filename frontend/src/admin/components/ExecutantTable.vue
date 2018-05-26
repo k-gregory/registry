@@ -20,7 +20,7 @@
                     {{ props.row.phoneNumber }}
                 </b-table-column>
 
-                <b-table-column label="Назва ДВС" sortable field="facilityName">
+                <b-table-column label="ДВС" sortable field="facilityName">
                     {{ props.row.facilityName }}
                 </b-table-column>
             </template>
