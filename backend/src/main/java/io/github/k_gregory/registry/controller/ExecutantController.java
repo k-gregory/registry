@@ -1,34 +1,48 @@
 package io.github.k_gregory.registry.controller;
 
+import io.github.k_gregory.registry.dto.ExecutantCreateRequest;
 import io.github.k_gregory.registry.dto.ExecutantDTO;
-import io.github.k_gregory.registry.model.Executant;
-import io.github.k_gregory.registry.repository.ExecutantRepository;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+import io.github.k_gregory.registry.dto.ExecutantUpdateRequest;
+import io.github.k_gregory.registry.service.ExecutantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/executant")
 public class ExecutantController {
-    private final ExecutantRepository repository;
-    private final ModelMapper mapper;
+    private final ExecutantService service;
 
     @Autowired
-    public ExecutantController(ExecutantRepository repository, ModelMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
+    public ExecutantController(ExecutantService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<ExecutantDTO> getAllExecutants() {
-        List<Executant> executants = repository.fetchAllWithFacility();
-        Type type = new TypeToken<List<ExecutantDTO>>() {}.getType();
-        return mapper.map(executants, type);
+        return this.service.getAll();
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<ExecutantDTO> createExecutant(@RequestBody ExecutantCreateRequest request) {
+        ExecutantDTO dto = this.service.create(request);
+
+        if(dto == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<ExecutantDTO>(dto, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "{id}",method = RequestMethod.PUT)
+    public ResponseEntity<ExecutantDTO> updateExecutant(@PathVariable Long id, @RequestBody ExecutantUpdateRequest request) {
+        ExecutantDTO dto = this.service.update(id, request);
+
+        if(dto == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<ExecutantDTO>(dto, HttpStatus.OK);
     }
 }

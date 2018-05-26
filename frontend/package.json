@@ -14,8 +14,8 @@
     "bulma": "^0.6.2",
     "mdi": "^2.1.19",
     "vue": "^2.5.13",
-    "vue-class-component": "^6.0.0",
-    "vue-property-decorator": "^6.0.0",
+    "vue-class-component": "^6.1.0",
+    "vue-property-decorator": "^6.1.0",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {

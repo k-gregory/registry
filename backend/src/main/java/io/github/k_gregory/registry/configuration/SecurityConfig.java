@@ -26,7 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-resources/**",
             "/swagger-ui.html",
             "/v2/api-docs",
-            "/webjars/**"
+            "/webjars/**",
+            "/error"
     };
 
     private final UserDetailsService userDetailsService;
@@ -42,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
+                .csrf().disable()
                 .authorizeRequests()
                     .antMatchers(AUTH_WHITELIST).permitAll()
                     .anyRequest().authenticated().and()

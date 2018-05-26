@@ -1,7 +1,14 @@
 <template>
     <section>
+        <b-field grouped group-multiline is-grouped-right>
+            <div class="control">
+                <button class="button field" @click="onCreateClick">
+                    Створити
+                </button>
+            </div>
+        </b-field>
         <b-table
-                @click="onClick"
+                @click="onRowClick"
                 paginated
                 v-if="!tableState.failed"
                 :loading="tableState.loading"
@@ -26,6 +33,12 @@
             </template>
 
         </b-table>
+        <b-modal :active.sync="isEditUserModalActive">
+            <ExecutantEditModal @updated="onUpdate" :executant="selectedUser"></ExecutantEditModal>
+        </b-modal>
+        <b-modal :active.sync="isCreateUserModalActive">
+            <ExecutantCreateModal @created="onUpdate"></ExecutantCreateModal>
+        </b-modal>
     </section>
 </template>
 
@@ -36,16 +49,35 @@ import {Executant, getFullName, fetchExecutants} from '@/api/executant';
 import {Events} from '@/admin/shared/events';
 import {LoadingState, loadingProgress, loadingError, loadedData} from '@/shared/LoadingState';
 
-@Component({})
+import ExecutantEditModal from '@/admin/components/ExecutantEditModal.vue';
+import ExecutantCreateModal from '@/admin/components/ExecutantCreateModal.vue';
+
+@Component({
+    components: {
+        ExecutantEditModal,
+        ExecutantCreateModal,
+    },
+})
 export default class ExecutantTable extends Vue {
     public tableState: LoadingState<Executant[]> = loadingProgress();
 
-    public created(): void {
+    public isEditUserModalActive: boolean;
+    public isCreateUserModalActive: boolean;
+    public selectedUser: Executant | null;
+
+    constructor() {
+        super();
+        this.isEditUserModalActive = false;
+        this.isCreateUserModalActive = false;
+        this.selectedUser = null;
+    }
+
+    public update(): void {
         this.fetchData();
     }
 
-    public onClick(rowItem: Executant): void {
-        this.$emit(Events.UsersTableRowClick, rowItem);
+    public created(): void {
+        this.fetchData();
     }
 
     public sortByName(a: Executant, b: Executant, isAsc: boolean): number {
@@ -56,6 +88,20 @@ export default class ExecutantTable extends Vue {
         }
 
         return getFullName(a).localeCompare(getFullName(b));
+    }
+
+    public onRowClick(rowItem: Executant): void {
+        this.selectedUser = rowItem;
+        this.isEditUserModalActive = true;
+    }
+
+    public onUpdate(): void {
+        this.fetchData();
+        this.isEditUserModalActive = false;
+    }
+
+    public onCreateClick(): void {
+        this.isCreateUserModalActive = true;
     }
 
     private async fetchData(): Promise<void> {
