@@ -26,7 +26,7 @@ public class ExecutantController {
         return this.service.getAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping()
     public ResponseEntity<ExecutantDTO> createExecutant(@RequestBody ExecutantCreateRequest request) {
         ExecutantDTO dto = this.service.create(request);
 
@@ -36,7 +36,7 @@ public class ExecutantController {
         return new ResponseEntity<ExecutantDTO>(dto, HttpStatus.OK);
     }
 
-    @RequestMapping(path = "{id}",method = RequestMethod.PUT)
+    @PutMapping("{id}")
     public ResponseEntity<ExecutantDTO> updateExecutant(@PathVariable Long id, @RequestBody ExecutantUpdateRequest request) {
         ExecutantDTO dto = this.service.update(id, request);
 
@@ -44,5 +44,11 @@ public class ExecutantController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<ExecutantDTO>(dto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity deleteFacility(@PathVariable Long id) {
+        service.delete(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

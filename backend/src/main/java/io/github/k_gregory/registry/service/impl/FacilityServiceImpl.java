@@ -47,4 +47,14 @@ public class FacilityServiceImpl implements FacilityService {
 
         return facility;
     }
+
+    @Override
+    public void delete(Long id) {
+        Optional<Facility> found = repository.findById(id);
+
+        if(!found.isPresent())
+            return;
+
+        repository.delete(found.get());
+    }
 }

@@ -12,4 +12,6 @@ public interface ExecutantService {
     ExecutantDTO create(ExecutantCreateRequest request);
 
     ExecutantDTO update(Long id, ExecutantUpdateRequest request);
+
+    void delete(Long id);
 }

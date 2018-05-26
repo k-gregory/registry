@@ -10,4 +10,6 @@ public interface FacilityService {
     Facility create(String name);
 
     Facility rename(Long id, String name);
+
+    void delete(Long id);
 }

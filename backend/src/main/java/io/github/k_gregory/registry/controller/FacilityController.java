@@ -40,4 +40,10 @@ public class FacilityController {
 
         return new ResponseEntity<>(facility, HttpStatus.OK);
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity deleteFacility(@PathVariable Long id) {
+        service.delete(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 }

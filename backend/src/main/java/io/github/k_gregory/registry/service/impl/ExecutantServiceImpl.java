@@ -73,4 +73,14 @@ public class ExecutantServiceImpl implements ExecutantService {
         repository.save(executant);
         return mapper.map(executant, ExecutantDTO.class);
     }
+
+    @Override
+    public void delete(Long id) {
+        Optional<Executant> found = repository.findById(id);
+
+        if(!found.isPresent())
+            return;
+
+        repository.delete(found.get());
+    }
 }
