@@ -39,6 +39,7 @@ public class ExecutantServiceImpl implements ExecutantService {
         Type type = new TypeToken<List<ExecutantDTO>>() {}.getType();
         return mapper.map(executants, type);    }
 
+    @Transactional
     @Override
     public ExecutantDTO create(ExecutantCreateRequest request) {
         Optional<Facility> facility = facilityRepository.findById(request.getFacilityId());
@@ -57,8 +58,8 @@ public class ExecutantServiceImpl implements ExecutantService {
         return mapper.map(executant, ExecutantDTO.class);
     }
 
-    @Override
     @Transactional
+    @Override
     public ExecutantDTO update(Long id, ExecutantUpdateRequest request) {
         Optional<Executant> found = repository.findById(id);
 
@@ -74,6 +75,7 @@ public class ExecutantServiceImpl implements ExecutantService {
         return mapper.map(executant, ExecutantDTO.class);
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         Optional<Executant> found = repository.findById(id);
