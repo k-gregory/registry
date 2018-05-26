@@ -55,7 +55,7 @@ spring.profiles: integration-test
 spring:
   thymeleaf.cache: false
   flyway.locations: classpath:db/migration/postgresql
-  jpa.hibernate.ddl-auto: update
+  jpa.hibernate.ddl-auto: create-drop
   datasource:
     url: jdbc:postgresql://localhost/integration_test
     username: postgres
