@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ExecutantRepository extends JpaRepository<Executant, Long> {
-    @Query("select e from Executant e join fetch e.facility")
+    @Query("select e from Executant e join fetch e.facility order by e.id")
     List<Executant> fetchAllWithFacility();
 }

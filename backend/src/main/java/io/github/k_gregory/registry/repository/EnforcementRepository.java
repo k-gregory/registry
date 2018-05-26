@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface EnforcementRepository extends JpaRepository<Enforcement, Long> {
-    @Query("select e from Enforcement e join fetch e.facility")
+    @Query("select e from Enforcement e join fetch e.facility order by e.id")
     List<Enforcement> fetchAllWithFacility(Pageable p);
 }
