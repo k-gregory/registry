@@ -2,7 +2,12 @@ jobs:
   include:
     - stage: Test
       language: java
+      addons:
+        postgresql: "9.6"
+      services:
+        - postgresql
       before_script:
+        - psql -c 'create database integration_test;' -U postgres
         - cd backend
       before_cache:
       - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
