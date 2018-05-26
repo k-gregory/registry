@@ -13,10 +13,13 @@ jobs:
         - "$HOME/.gradle/caches/"
         - "$HOME/.gradle/wrapper/"
     - stage: Test
+      services:
+        - postgresql
       language: node_js
       node_js:
         - "node"
       before_install:
+        - psql -c 'create database integration_test;' -U postgres
         - cd frontend
     - stage: deploy
       language: node_js
