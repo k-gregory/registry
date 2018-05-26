@@ -1,5 +1,6 @@
 package io.github.k_gregory.registry.service.impl;
 
+import io.github.k_gregory.registry.infrastructure.ResourceNotFoundException;
 import io.github.k_gregory.registry.model.Facility;
 import io.github.k_gregory.registry.repository.FacilityRepository;
 import io.github.k_gregory.registry.service.FacilityService;
@@ -39,7 +40,7 @@ public class FacilityServiceImpl implements FacilityService {
         Optional<Facility> found = repository.findById(id);
 
         if(!found.isPresent())
-            return null;
+            throw new ResourceNotFoundException();
 
         Facility facility = found.get();
         facility.setName(name);

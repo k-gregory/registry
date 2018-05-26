@@ -3,6 +3,8 @@ package io.github.k_gregory.registry.service.impl;
 import io.github.k_gregory.registry.dto.ExecutantCreateRequest;
 import io.github.k_gregory.registry.dto.ExecutantDTO;
 import io.github.k_gregory.registry.dto.ExecutantUpdateRequest;
+import io.github.k_gregory.registry.infrastructure.RegistryApplicationException;
+import io.github.k_gregory.registry.infrastructure.ResourceNotFoundException;
 import io.github.k_gregory.registry.model.Executant;
 import io.github.k_gregory.registry.model.Facility;
 import io.github.k_gregory.registry.repository.ExecutantRepository;
@@ -45,7 +47,7 @@ public class ExecutantServiceImpl implements ExecutantService {
         Optional<Facility> facility = facilityRepository.findById(request.getFacilityId());
 
         if(!facility.isPresent())
-            return null;
+            throw new RegistryApplicationException("Could not create executant. Provided facility does not exist.");
 
         Executant executant = new Executant();
         executant.setFirstName(request.getFirstName());
@@ -64,7 +66,7 @@ public class ExecutantServiceImpl implements ExecutantService {
         Optional<Executant> found = repository.findById(id);
 
         if(!found.isPresent())
-            return null;
+            throw new ResourceNotFoundException();
 
         Executant executant = found.get();
         executant.setFirstName(request.getFirstName());

@@ -6,7 +6,6 @@ import io.github.k_gregory.registry.model.Facility;
 import io.github.k_gregory.registry.service.FacilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,18 +31,13 @@ public class FacilityController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Facility> updateFacility(@PathVariable Long id, @RequestBody FacilityUpdateRequest request) {
-        Facility facility = service.rename(id, request.getName());
-
-        if(facility == null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        return new ResponseEntity<>(facility, HttpStatus.OK);
+    public Facility updateFacility(@PathVariable Long id, @RequestBody FacilityUpdateRequest request) {
+        return service.rename(id, request.getName());
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteFacility(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFacility(@PathVariable Long id) {
         service.delete(id);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

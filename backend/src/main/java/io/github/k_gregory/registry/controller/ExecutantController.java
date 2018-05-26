@@ -6,7 +6,6 @@ import io.github.k_gregory.registry.dto.ExecutantUpdateRequest;
 import io.github.k_gregory.registry.service.ExecutantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,28 +26,18 @@ public class ExecutantController {
     }
 
     @PostMapping()
-    public ResponseEntity<ExecutantDTO> createExecutant(@RequestBody ExecutantCreateRequest request) {
-        ExecutantDTO dto = this.service.create(request);
-
-        if(dto == null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        return new ResponseEntity<ExecutantDTO>(dto, HttpStatus.OK);
+    public ExecutantDTO createExecutant(@RequestBody ExecutantCreateRequest request) {
+        return this.service.create(request);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ExecutantDTO> updateExecutant(@PathVariable Long id, @RequestBody ExecutantUpdateRequest request) {
-        ExecutantDTO dto = this.service.update(id, request);
-
-        if(dto == null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        return new ResponseEntity<ExecutantDTO>(dto, HttpStatus.OK);
+    public ExecutantDTO updateExecutant(@PathVariable Long id, @RequestBody ExecutantUpdateRequest request) {
+        return this.service.update(id, request);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteFacility(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFacility(@PathVariable Long id) {
         service.delete(id);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
