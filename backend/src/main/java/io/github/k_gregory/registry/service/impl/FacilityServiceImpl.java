@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static io.github.k_gregory.registry.infrastructure.ResourceNotFoundException.getOrThrowNotFound;
+import static io.github.k_gregory.registry.infrastructure.ResourceNotFoundException.checked;
 
 @Service
 public class FacilityServiceImpl implements FacilityService {
@@ -40,7 +40,7 @@ public class FacilityServiceImpl implements FacilityService {
     public Facility rename(Long id, String name) {
         Optional<Facility> found = repository.findById(id);
 
-        Facility facility = getOrThrowNotFound(found);
+        Facility facility = checked(found);
         facility.setName(name);
         repository.save(facility);
 

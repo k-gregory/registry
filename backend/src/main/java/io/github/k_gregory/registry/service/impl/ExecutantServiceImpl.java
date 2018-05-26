@@ -19,7 +19,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 
-import static io.github.k_gregory.registry.infrastructure.ResourceNotFoundException.getOrThrowNotFound;
+import static io.github.k_gregory.registry.infrastructure.ResourceNotFoundException.checked;
 
 @Service
 public class ExecutantServiceImpl implements ExecutantService {
@@ -45,17 +45,15 @@ public class ExecutantServiceImpl implements ExecutantService {
     @Transactional
     @Override
     public ExecutantDTO create(ExecutantCreateRequest request) {
-        Optional<Facility> facility = facilityRepository.findById(request.getFacilityId());
+        Optional<Facility> found = facilityRepository.findById(request.getFacilityId());
 
-        if(!facility.isPresent())
-            throw new RegistryApplicationException("Could not create executant. Provided facility does not exist.");
-
+        Facility facility = RegistryApplicationException.checked(found, "Could not create executant. Provided facility does not exist.");
         Executant executant = new Executant();
         executant.setFirstName(request.getFirstName());
         executant.setMiddleName(request.getMiddleName());
         executant.setLastName(request.getLastName());
         executant.setPhoneNumber(request.getPhoneNumber());
-        executant.setFacility(facility.get());
+        executant.setFacility(facility);
 
         repository.save(executant);
         return mapper.map(executant, ExecutantDTO.class);
@@ -66,7 +64,7 @@ public class ExecutantServiceImpl implements ExecutantService {
     public ExecutantDTO update(Long id, ExecutantUpdateRequest request) {
         Optional<Executant> found = repository.findById(id);
 
-        Executant executant = getOrThrowNotFound(found);
+        Executant executant = checked(found);
         executant.setFirstName(request.getFirstName());
         executant.setMiddleName(request.getMiddleName());
         executant.setLastName(request.getLastName());
