@@ -10,7 +10,11 @@
         <section>
             <b-tabs v-model="activeTab" :animated="false">
                 <b-tab-item label="Виконавці та Реєстратори">
-                    <ExecutantTable ref="table"></ExecutantTable>
+                    <ExecutantTable></ExecutantTable>
+                </b-tab-item>
+
+                <b-tab-item label="Державні виконавчі служби">
+                    <FacilityTable></FacilityTable>
                 </b-tab-item>
 
                 <b-tab-item label="Стягувачі та Боржники">
@@ -28,13 +32,13 @@
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator';
   import ExecutantTable from '@/admin/components/ExecutantTable.vue'; // @ is an alias to /src
-  import ExecutantEditModal from '@/admin/components/ExecutantEditModal.vue';
-  import ExecutantCreateModal from '@/admin/components/ExecutantCreateModal.vue';
+  import FacilityTable from '@/admin/components/FacilityTable.vue'; // @ is an alias to /src
   import {Executant} from '@/api/executant';
 
   @Component({
     components: {
       ExecutantTable,
+      FacilityTable,
     },
   })
   export default class Admin extends Vue {
