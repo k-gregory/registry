@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.List;
 
-import static io.github.k_gregory.registry.infrastructure.ResourceNotFoundException.getOr404;
+import static io.github.k_gregory.registry.infrastructure.ResourceNotFoundException.getOrThrowNotFound;
 
 class IndividualDto {
     @NotNull
@@ -103,7 +103,7 @@ public class IndividualController {
 
     @GetMapping("/{uid}")
     public IndividualDto findByUid(@PathVariable("uid") String uid) {
-        Individual individual = getOr404(this.individuals.findByUid(uid));
+        Individual individual = getOrThrowNotFound(this.individuals.findByUid(uid));
         return mapper.map(individual, IndividualDto.class);
     }
 

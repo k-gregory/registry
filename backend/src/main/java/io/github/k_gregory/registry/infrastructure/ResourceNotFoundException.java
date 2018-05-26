@@ -12,7 +12,7 @@ public class ResourceNotFoundException extends RuntimeException {
             throw new ResourceNotFoundException();
     }
 
-    public static <T> T getOr404(@SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<T> object) {
+    public static <T> T getOrThrowNotFound(@SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<T> object) {
         return object.orElseThrow(ResourceNotFoundException::new);
     }
 }

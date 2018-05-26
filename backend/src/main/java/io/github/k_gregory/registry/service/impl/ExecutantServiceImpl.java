@@ -4,7 +4,6 @@ import io.github.k_gregory.registry.dto.ExecutantCreateRequest;
 import io.github.k_gregory.registry.dto.ExecutantDTO;
 import io.github.k_gregory.registry.dto.ExecutantUpdateRequest;
 import io.github.k_gregory.registry.infrastructure.RegistryApplicationException;
-import io.github.k_gregory.registry.infrastructure.ResourceNotFoundException;
 import io.github.k_gregory.registry.model.Executant;
 import io.github.k_gregory.registry.model.Facility;
 import io.github.k_gregory.registry.repository.ExecutantRepository;
@@ -19,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
+
+import static io.github.k_gregory.registry.infrastructure.ResourceNotFoundException.getOrThrowNotFound;
 
 @Service
 public class ExecutantServiceImpl implements ExecutantService {
@@ -65,10 +66,7 @@ public class ExecutantServiceImpl implements ExecutantService {
     public ExecutantDTO update(Long id, ExecutantUpdateRequest request) {
         Optional<Executant> found = repository.findById(id);
 
-        if(!found.isPresent())
-            throw new ResourceNotFoundException();
-
-        Executant executant = found.get();
+        Executant executant = getOrThrowNotFound(found);
         executant.setFirstName(request.getFirstName());
         executant.setMiddleName(request.getMiddleName());
         executant.setLastName(request.getLastName());
