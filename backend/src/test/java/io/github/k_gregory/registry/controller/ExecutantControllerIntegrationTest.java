@@ -28,13 +28,7 @@ public class ExecutantControllerIntegrationTest extends AbstractIntegrationTest 
     private MockMvc mvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
     private EntityManager em;
-
-    @Autowired
-    private ExecutantRepository executantRepository;
 
     private final String FACILITY_NAME = "TestFacility";
     private Facility facility;
