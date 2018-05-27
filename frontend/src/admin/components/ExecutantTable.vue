@@ -1,7 +1,7 @@
 <template>
     <section>
         <b-field grouped group-multiline is-grouped-right class="level">
-            <b-field type="text" horizontal label="Пошук" class="query level-tem level-left">
+            <b-field type="text" horizontal label="Пошук" expanded class="level-tem level-left">
                 <b-input v-model="query"></b-input>
             </b-field>
             <div class="field level-item level-right">
@@ -139,10 +139,6 @@ export default class ExecutantTable extends Vue {
 <style lang="scss">
 .clickable {
     cursor: pointer;
-}    
-
-.query {
-    min-width: 500px;
 }
 </style>
 
