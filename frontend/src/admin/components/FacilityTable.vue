@@ -1,7 +1,7 @@
 <template>
     <section>
         <b-field grouped group-multiline is-grouped-right class="level">
-            <b-field type="text" horizontal label="Пошук" expanded class="level-tem level-left">
+            <b-field type="text" horizontal label="Пошук" expanded class="level-item level-left">
                 <b-input v-model="query"></b-input>
             </b-field>
             <div class="field level-item level-right">
