@@ -1,11 +1,9 @@
 package io.github.k_gregory.registry.dto;
 
-import java.util.Optional;
-
 public class FacilityResponse {
     private int id;
     private String name;
-    private Optional<Integer> headId;
+    private Integer headId;
     private String headName;
 
     public int getId() {
@@ -24,11 +22,11 @@ public class FacilityResponse {
         this.name = name;
     }
 
-    public Optional<Integer> getHeadId() {
+    public Integer getHeadId() {
         return headId;
     }
 
-    public void setHeadId(Optional<Integer> headId) {
+    public void setHeadId(Integer headId) {
         this.headId = headId;
     }
 

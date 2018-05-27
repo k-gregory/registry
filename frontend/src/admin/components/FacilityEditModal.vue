@@ -62,15 +62,16 @@ export default class FacilityEditModal extends Vue {
             return;
         }
 
-        this.editedFacility = {...this.facility};
+        this.editedFacility = {...this.facility, headId: this.facility.headId === null ? 0 : this.facility.headId};
         const executants = await fetchExecutants();
-        this.executants = executants.filter((f) => f.facilityId === this.facility.id);
+        const noFacility: any = {id: 0, firstName: 'Голову не призначено', middleName: '', lastName: ''};
+        this.executants = [noFacility].concat(executants.filter((f) => f.facilityId === this.facility.id));
         this.$forceUpdate();
     }
 
     public async onSubmit(): Promise<void> {
         const e: Facility = this.editedFacility as Facility;
-        this.$emit(Events.FacilityUpdated, e);
+        this.$emit(Events.FacilityUpdated, {...e, headId: e.headId === 0 ? null : e.headId});
     }
 
     public getFullName(e: Executant): string {

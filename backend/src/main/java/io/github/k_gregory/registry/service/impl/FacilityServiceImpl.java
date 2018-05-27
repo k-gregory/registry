@@ -57,14 +57,16 @@ public class FacilityServiceImpl implements FacilityService {
         Facility facility = ResourceNotFoundException.checked(found);
         facility.setName(request.getName());
 
-        if(request.getFacilityHeadId().isPresent()) {
+        if(request.getFacilityHeadId() != null) {
             Optional<Executant> foundExecutant = executantRepository
-                    .findExecutantInFacility(request.getFacilityHeadId().get(), id);
+                    .findExecutantInFacility(request.getFacilityHeadId(), id);
 
             Executant executant = RegistryApplicationException
                     .checked(foundExecutant, "Could not update facility. Executant was not found");
 
             facility.setHead(executant);
+        } else {
+            facility.setHead(null);
         }
 
         repository.save(facility);

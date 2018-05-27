@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.persistence.EntityManager;
-import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -130,7 +129,7 @@ public class FacilityControllerIntegrationTest extends AbstractIntegrationTest {
 
         FacilityUpdateRequest request = new FacilityUpdateRequest();
         request.setName("NameUpdated");
-        request.setFacilityHeadId(Optional.of(e.getId()));
+        request.setFacilityHeadId(e.getId().intValue());
 
         mvc.perform(put("/api/facility/" + created.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -145,6 +144,7 @@ public class FacilityControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].headId", is(created.getId().intValue())))
                 .andExpect(jsonPath("$[0].headName", is("123 321 last")));
     }
 }

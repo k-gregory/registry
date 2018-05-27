@@ -1,10 +1,9 @@
 package io.github.k_gregory.registry.dto;
 
-import java.util.Optional;
-
 public class FacilityUpdateRequest {
     private String name;
-    private Optional<Long> facilityHeadId;
+
+    private Integer facilityHeadId;
 
     public String getName() {
         return name;
@@ -14,11 +13,11 @@ public class FacilityUpdateRequest {
         this.name = name;
     }
 
-    public Optional<Long> getFacilityHeadId() {
+    public Integer getFacilityHeadId() {
         return facilityHeadId;
     }
 
-    public void setFacilityHeadId(Optional<Long> facilityHeadId) {
+    public void setFacilityHeadId(Integer facilityHeadId) {
         this.facilityHeadId = facilityHeadId;
     }
 }

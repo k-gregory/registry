@@ -26,7 +26,7 @@ public class FacilityController {
     }
 
     @PostMapping
-    public FacilityResponse createFacility(@RequestBody(required = false) FacilityCreateReqeust request) {
+    public FacilityResponse createFacility(@RequestBody FacilityCreateReqeust request) {
         return service.create(request.getName());
     }
 
