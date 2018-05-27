@@ -4,7 +4,7 @@
             <b-field type="text" horizontal label="Пошук" class="query level-tem level-left">
                 <b-input v-model="query"></b-input>
             </b-field>
-            <div class="field is-pulled-right level-item level-right">
+            <div class="field level-item level-right">
                 <button class="button field is-primary" @click="onCreateClick">
                     Створити
                 </button>
