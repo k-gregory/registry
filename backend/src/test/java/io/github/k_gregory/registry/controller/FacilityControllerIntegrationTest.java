@@ -119,17 +119,17 @@ public class FacilityControllerIntegrationTest extends AbstractIntegrationTest {
     public void canAssignExecutantAsHead() throws Exception {
         Facility created = createFacility("NameCreated");
 
-        Executant e = new Executant();
-        e.setFirstName("123");
-        e.setMiddleName("321");
-        e.setLastName("last");
-        e.setFacility(created);
-        e.setPhoneNumber("123");
-        em.persist(e);
+        Executant executant = new Executant();
+        executant.setFirstName("123");
+        executant.setMiddleName("321");
+        executant.setLastName("last");
+        executant.setFacility(created);
+        executant.setPhoneNumber("123");
+        em.persist(executant);
 
         FacilityUpdateRequest request = new FacilityUpdateRequest();
         request.setName("NameUpdated");
-        request.setFacilityHeadId(e.getId().intValue());
+        request.setFacilityHeadId(executant.getId().intValue());
 
         mvc.perform(put("/api/facility/" + created.getId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -144,7 +144,7 @@ public class FacilityControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].headId", is(created.getId().intValue())))
+                .andExpect(jsonPath("$[0].headId", is(executant.getId().intValue())))
                 .andExpect(jsonPath("$[0].headName", is("123 321 last")));
     }
 }
