@@ -19,7 +19,7 @@
                 :row-class="(r, i) => 'clickable'"
                 :per-page="10">
             <template slot-scope="props">
-                <b-table-column label="Ідентифікатор" sortable width="40">
+                <b-table-column label="Ідентифікатор" field="id" sortable width="40">
                     {{ props.row.id }}
                 </b-table-column>
 
