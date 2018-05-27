@@ -1,15 +1,20 @@
 <template>
     <section>
-        <b-field grouped group-multiline is-grouped-right class="level">
-            <b-field type="text" horizontal label="Пошук" expanded class="level-left">
-                <b-input v-model="query"></b-input>
-            </b-field>
-            <div class="field level-right">
-                <button class="button field is-primary" @click="onCreateClick">
+        <div class="columns is-vcentered is-mobile is-multiline">
+            <div class="column is-1-desktop is-2-mobile">
+                <div class="label">
+                    Пошук
+                </div>
+            </div>
+            <div class="column is-6-desktop is-10-mobile">
+                <b-input class="level-item" v-model="query"></b-input>
+            </div>
+            <div class="column is-1-desktop is-offset-4-desktop is-full-mobile">
+                <button class="button is-primary" @click="onCreateClick">
                     Створити
                 </button>
             </div>
-        </b-field>
+        </div>
         <b-table
                 @click="onRowClick"
                 paginated
