@@ -1,8 +1,11 @@
 <template>
     <section>
-        <b-field grouped group-multiline is-grouped-right>
-            <div class="control">
-                <button class="button field" @click="onCreateClick">
+        <b-field grouped group-multiline is-grouped-right class="level">
+            <b-field type="text" horizontal label="Пошук" class="query level-tem level-left">
+                <b-input v-model="query"></b-input>
+            </b-field>
+            <div class="field level-item level-right">
+                <button class="button field is-primary" @click="onCreateClick">
                     Створити
                 </button>
             </div>
@@ -12,10 +15,11 @@
                 paginated
                 v-if="!tableState.failed"
                 :loading="tableState.loading"
-                :data="tableState.data"
-                :row-class="(r, i) => 'clickable'">
+                :data="filtered"
+                :row-class="(r, i) => 'clickable'"
+                :per-page="10">
             <template slot-scope="props">
-                <b-table-column label="Ідентифікатор" width="40">
+                <b-table-column label="Ідентифікатор" sortable field="id" width="40">
                     {{ props.row.id }}
                 </b-table-column>
 
@@ -61,6 +65,20 @@ import ExecutantCreateModal from '@/admin/components/ExecutantCreateModal.vue';
 export default class ExecutantTable extends Vue {
     public tableState: LoadingState<Executant[]> = loadingProgress();
 
+    public query: string;
+
+    get filtered(): Executant[] {
+        if (!this.tableState.data) {
+            return [];
+        }
+
+        const query = this.query.toLowerCase();
+
+        return this.tableState.data.filter((e) => e.firstName.toLowerCase().includes(query) ||
+                                                e.middleName.toLowerCase().includes(query) ||
+                                                e.lastName.toLowerCase().includes(query));
+    }
+
     public isEditUserModalActive: boolean;
     public isCreateUserModalActive: boolean;
     public selectedUser: Executant | null;
@@ -70,6 +88,7 @@ export default class ExecutantTable extends Vue {
         this.isEditUserModalActive = false;
         this.isCreateUserModalActive = false;
         this.selectedUser = null;
+        this.query = '';
     }
 
     public update(): void {
@@ -98,6 +117,7 @@ export default class ExecutantTable extends Vue {
     public onUpdate(): void {
         this.fetchData();
         this.isEditUserModalActive = false;
+        this.isCreateUserModalActive = false;
     }
 
     public onCreateClick(): void {
@@ -120,6 +140,10 @@ export default class ExecutantTable extends Vue {
 .clickable {
     cursor: pointer;
 }    
+
+.query {
+    min-width: 500px;
+}
 </style>
 
 

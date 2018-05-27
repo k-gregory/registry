@@ -2,7 +2,7 @@
     <div>
         <div class="modal-card" style="width: auto">
             <header class="modal-card-head">
-                <p class="modal-card-title">{{title}}</p>
+                <p class="modal-card-title">Створення</p>
             </header>
             <section class="modal-card-body">
                 <b-field label="Назва">
@@ -29,25 +29,12 @@ import { Events } from '@/admin/shared/events';
 import { Dialog } from 'buefy';
 
 @Component
-export default class FacilityEditModal extends Vue {
-    @Prop()
-    public facility!: Facility;
-    @Prop()
-    public title!: string;
-
+export default class FacilityCreateModal extends Vue {
     private editedFacility: Facility | {};
 
     constructor() {
         super();
         this.editedFacility = {};
-    }
-
-    public mounted(): void {
-        if (this.facility == null) {
-            return;
-        }
-
-        this.editedFacility = {...this.facility};
     }
 
     public async onSubmit(): Promise<void> {

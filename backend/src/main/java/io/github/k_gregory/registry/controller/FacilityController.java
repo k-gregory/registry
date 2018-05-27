@@ -1,8 +1,8 @@
 package io.github.k_gregory.registry.controller;
 
 import io.github.k_gregory.registry.dto.FacilityCreateReqeust;
+import io.github.k_gregory.registry.dto.FacilityResponse;
 import io.github.k_gregory.registry.dto.FacilityUpdateRequest;
-import io.github.k_gregory.registry.model.Facility;
 import io.github.k_gregory.registry.service.FacilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,18 +21,18 @@ public class FacilityController {
     }
 
     @GetMapping
-    public List<Facility> topEnforcements() {
+    public List<FacilityResponse> topEnforcements() {
         return service.getAll();
     }
 
     @PostMapping
-    public Facility createFacility(@RequestBody FacilityCreateReqeust request) {
+    public FacilityResponse createFacility(@RequestBody FacilityCreateReqeust request) {
         return service.create(request.getName());
     }
 
     @PutMapping("{id}")
-    public Facility updateFacility(@PathVariable Long id, @RequestBody FacilityUpdateRequest request) {
-        return service.rename(id, request.getName());
+    public FacilityResponse updateFacility(@PathVariable Long id, @RequestBody FacilityUpdateRequest request) {
+        return service.update(id, request);
     }
 
     @DeleteMapping("{id}")

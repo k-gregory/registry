@@ -1,15 +1,16 @@
 package io.github.k_gregory.registry.service;
 
-import io.github.k_gregory.registry.model.Facility;
+import io.github.k_gregory.registry.dto.FacilityResponse;
+import io.github.k_gregory.registry.dto.FacilityUpdateRequest;
 
 import java.util.List;
 
 public interface FacilityService {
-    List<Facility> getAll();
+    List<FacilityResponse> getAll();
 
-    Facility create(String name);
+    FacilityResponse create(String name);
 
-    Facility rename(Long id, String name);
+    FacilityResponse update(Long id, FacilityUpdateRequest request);
 
     void delete(Long id);
 }

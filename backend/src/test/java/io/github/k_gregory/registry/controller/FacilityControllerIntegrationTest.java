@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.k_gregory.registry.AbstractIntegrationTest;
 import io.github.k_gregory.registry.dto.FacilityCreateReqeust;
 import io.github.k_gregory.registry.dto.FacilityUpdateRequest;
+import io.github.k_gregory.registry.model.Executant;
 import io.github.k_gregory.registry.model.Facility;
 import io.github.k_gregory.registry.repository.FacilityRepository;
 import org.junit.Before;
@@ -78,6 +79,7 @@ public class FacilityControllerIntegrationTest extends AbstractIntegrationTest {
     @Test @Transactional
     public void postFacilityCreatesFacility() throws Exception {
         String expectedName = "NameCreated";
+        Integer expectedHeadId = null;
         createFacility(expectedName);
 
         mvc.perform(
@@ -86,7 +88,8 @@ public class FacilityControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name", is(expectedName)));
+                .andExpect(jsonPath("$[0].name", is(expectedName)))
+                .andExpect(jsonPath("$[0].headId", is(expectedHeadId)));
     }
 
     @Test @Transactional
@@ -110,5 +113,38 @@ public class FacilityControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].name", is(expectedName)));
+    }
+
+    @Test @Transactional
+    public void canAssignExecutantAsHead() throws Exception {
+        Facility created = createFacility("NameCreated");
+
+        Executant executant = new Executant();
+        executant.setFirstName("123");
+        executant.setMiddleName("321");
+        executant.setLastName("last");
+        executant.setFacility(created);
+        executant.setPhoneNumber("123");
+        em.persist(executant);
+
+        FacilityUpdateRequest request = new FacilityUpdateRequest();
+        request.setName("NameUpdated");
+        request.setFacilityHeadId(executant.getId().intValue());
+
+        mvc.perform(put("/api/facility/" + created.getId())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsBytes(request))
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+
+        mvc.perform(
+                get("/api/facility")
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].headId", is(executant.getId().intValue())))
+                .andExpect(jsonPath("$[0].headName", is("123 321 last")));
     }
 }
