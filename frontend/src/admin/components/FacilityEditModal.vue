@@ -14,7 +14,7 @@
                 </b-field>
 
                 <b-field label="Голова">
-                    <b-select placeholder="Оберість Голову" v-model="editedFacility.headId" expanded>
+                    <b-select placeholder="Оберіть Голову" v-model="editedFacility.headId" expanded>
                         <option
                             v-for="option in executants"
                             :value="option.id"
