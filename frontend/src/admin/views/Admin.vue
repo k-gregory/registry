@@ -8,7 +8,7 @@
      </nav>
     <div class="container">
         <section>
-            <b-tabs v-model="activeTab" :animated="false">
+            <b-tabs v-model="activeTab">
                 <b-tab-item label="Виконавці та Реєстратори">
                     <ExecutantTable></ExecutantTable>
                 </b-tab-item>
