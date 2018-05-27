@@ -1,8 +1,11 @@
 <template>
     <section>
-        <b-field grouped group-multiline is-grouped-right>
-            <div class="control">
-                <button class="button field" @click="onCreateClick">
+        <b-field grouped group-multiline is-grouped-right class="level">
+            <b-field type="text" horizontal label="Пошук" class="query level-tem level-left">
+                <b-input v-model="query"></b-input>
+            </b-field>
+            <div class="field is-pulled-right level-item level-right">
+                <button class="button field is-primary" @click="onCreateClick">
                     Створити
                 </button>
             </div>
@@ -12,8 +15,9 @@
                 paginated
                 v-if="!tableState.failed"
                 :loading="tableState.loading"
-                :data="tableState.data"
-                :row-class="(r, i) => 'clickable'">
+                :data="filtered"
+                :row-class="(r, i) => 'clickable'"
+                :per-page="10">
             <template slot-scope="props">
                 <b-table-column label="Ідентифікатор" width="40">
                     {{ props.row.id }}
@@ -22,14 +26,18 @@
                 <b-table-column label="Назва" sortable field="name">
                     {{ props.row.name }}
                 </b-table-column>
+
+                <b-table-column label="Голова" sortable field="headName">
+                    {{ props.row.headName || "Голову не призначено" }}
+                </b-table-column>
             </template>
 
         </b-table>
         <b-modal :active.sync="isEditFacilityModalActive">
-            <FacilityModal title="Редагування" @updated="onUpdate" :facility="selectedFacility"></FacilityModal>
+            <FacilityEditModal @updated="onUpdate" :facility="selectedFacility"></FacilityEditModal>
         </b-modal>
         <b-modal :active.sync="isCreateFacilityModalActive">
-            <FacilityModal title="Створення" @updated="onCreate"></FacilityModal>
+            <FacilityCreateModal @updated="onCreate"></FacilityCreateModal>
         </b-modal>
     </section>
 </template>
@@ -41,25 +49,38 @@ import {Facility, fetchFacilities, updateFacility, createFacility} from '@/api/f
 import {Events} from '@/admin/shared/events';
 import {LoadingState, loadingProgress, loadingError, loadedData} from '@/shared/LoadingState';
 
-import FacilityModal from '@/admin/components/FacilityModal.vue';
+import FacilityCreateModal from '@/admin/components/FacilityCreateModal.vue';
+import FacilityEditModal from '@/admin/components/FacilityEditModal.vue';
 
 @Component({
     components: {
-        FacilityModal,
+        FacilityEditModal, FacilityCreateModal,
     },
 })
 export default class ExecutantTable extends Vue {
     public tableState: LoadingState<Facility[]> = loadingProgress();
 
+    public query: string;
+
+    get filtered(): Facility[] {
+        if (!this.tableState.data) {
+            return [];
+        }
+
+        return this.tableState.data.filter((f) => f.name.toLowerCase().includes(this.query.toLowerCase()));
+    }
+
     public isEditFacilityModalActive: boolean;
     public isCreateFacilityModalActive: boolean;
     public selectedFacility: Facility | null;
+
 
     constructor() {
         super();
         this.isEditFacilityModalActive = false;
         this.isCreateFacilityModalActive = false;
         this.selectedFacility = null;
+        this.query = '';
     }
 
     public update(): void {
@@ -75,9 +96,8 @@ export default class ExecutantTable extends Vue {
         this.isEditFacilityModalActive = true;
     }
 
-    public async onUpdate(name: string): Promise<void> {
-        const facility = this.selectedFacility as Facility;
-        await updateFacility(facility.id, name);
+    public async onUpdate(facility: Facility): Promise<void> {
+        await updateFacility(facility.id, facility.name, facility.headId as number);
         await this.fetchData();
         this.isEditFacilityModalActive = false;
     }

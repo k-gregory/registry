@@ -13,6 +13,10 @@ public class Facility {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "head_id")
+    private Executant head;
+
     public Long getId() {
         return id;
     }
@@ -27,5 +31,13 @@ public class Facility {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Executant getHead() {
+        return head;
+    }
+
+    public void setHead(Executant head) {
+        this.head = head;
     }
 }
