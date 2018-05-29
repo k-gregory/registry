@@ -3,7 +3,7 @@
   <div>
     <nav class="level toolbar box">
         <div class="level-item">
-            <div class="title">Адмін | Автоматизована система виконавчого провадження</div>
+            <div class="title">Адмін1 | Автоматизована система виконавчого провадження</div>
         </div>
      </nav>
     <div class="container">
