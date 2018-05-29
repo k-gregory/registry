@@ -5,6 +5,7 @@ import io.github.k_gregory.registry.dto.TopEnforcementDTO;
 import io.github.k_gregory.registry.model.Enforcement;
 import io.github.k_gregory.registry.model.EnforcementState;
 import io.github.k_gregory.registry.model.Facility;
+import io.github.k_gregory.registry.model.Subject;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,9 +72,15 @@ public class EnforcementServiceIntegrationTest extends AbstractIntegrationTest {
         em.persist(facility);
 
         Enforcement newEnforcement = new Enforcement();
+        Subject r = new Subject();
+        r.setName("ZEE-RECEIVER");
+        Subject s = new Subject();
+        s.setName("ZEE-SENDER");
+        em.persist(r);
+        em.persist(s);
         newEnforcement.setFacility(facility);
-        newEnforcement.setReceiver("ZEE-RECEIVER");
-        newEnforcement.setSender("ZEE-SENDER");
+        newEnforcement.setReceiver(r);
+        newEnforcement.setSender(s);
         newEnforcement.setStartedAt(new Date(42));
         newEnforcement.setState(EnforcementState.CLOSED);
         em.persist(newEnforcement);
@@ -93,10 +100,16 @@ public class EnforcementServiceIntegrationTest extends AbstractIntegrationTest {
 
     private void saveSomeEnforcements(int count) {
         for (int i = 0; i < count; i++) {
+            Subject r = new Subject();
+            r.setName("TEST-RECEIVER" + i);
+            Subject s = new Subject();
+            s.setName("TEST-SENDER" + i);
             Enforcement enforcement = new Enforcement();
+            em.persist(r);
+            em.persist(s);
             enforcement.setFacility(facility);
-            enforcement.setReceiver("TEST-RECEIVER" + i);
-            enforcement.setSender("TEST-SENDER" + i);
+            enforcement.setReceiver(r);
+            enforcement.setSender(s);
             enforcement.setStartedAt(new Date(0));
             enforcement.setState(EnforcementState.CLOSED);
             em.persist(enforcement);
