@@ -52,9 +52,6 @@
 
         public created(): void {
             this.fetchData();
-            setInterval(() => {
-                this.fetchData();
-            }, 3000);
         }
 
         private async fetchData(): Promise<void> {
