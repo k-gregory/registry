@@ -2,22 +2,13 @@
   <div>
     <nav class="level toolbar box">
       <div class="level-item">
-        <b-field>
-          <b-input placeholder="Знайти..."
-              type="search"
-              icon="magnify"
-              v-model="searchQuery">
-          </b-input>
-          <p class="control">
-              <button class="button is-primary">Пошук</button>
-          </p>
-        </b-field>
+        <router-link tag="button" class="button is-primary" class-active="active" to="/register" exact>Реєстр</router-link>
       </div>
       <div class="level-item">
         <div class="title">Автоматизована система виконавчого провадження</div>
       </div>
       <div class="level-item">
-        <button class="button is-primary">Увійти</button>
+        <router-link tag="button" class="button is-primary" class-active="active" to="/admin" exact>Адмін</router-link>
       </div>
     </nav>
     <div class="container">

@@ -16,12 +16,6 @@
                 <b-tab-item label="Державні виконавчі служби">
                     <FacilityTable></FacilityTable>
                 </b-tab-item>
-
-                <b-tab-item label="Стягувачі та Боржники">
-                </b-tab-item>
-
-                <b-tab-item label="Статистика">
-                </b-tab-item>
             </b-tabs>
         </section>
     </div>
