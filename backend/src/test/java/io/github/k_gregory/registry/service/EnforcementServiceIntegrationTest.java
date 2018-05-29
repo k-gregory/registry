@@ -74,8 +74,10 @@ public class EnforcementServiceIntegrationTest extends AbstractIntegrationTest {
         Enforcement newEnforcement = new Enforcement();
         Subject r = new Subject();
         r.setName("ZEE-RECEIVER");
+        r.setInn("REC");
         Subject s = new Subject();
         s.setName("ZEE-SENDER");
+        s.setInn("SEN");
         em.persist(r);
         em.persist(s);
         newEnforcement.setFacility(facility);
@@ -101,9 +103,11 @@ public class EnforcementServiceIntegrationTest extends AbstractIntegrationTest {
     private void saveSomeEnforcements(int count) {
         for (int i = 0; i < count; i++) {
             Subject r = new Subject();
+            r.setInn("2" + i);
             r.setName("TEST-RECEIVER" + i);
             Subject s = new Subject();
             s.setName("TEST-SENDER" + i);
+            s.setInn("3" + i);
             Enforcement enforcement = new Enforcement();
             em.persist(r);
             em.persist(s);
