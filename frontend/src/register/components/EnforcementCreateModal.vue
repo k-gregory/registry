@@ -81,7 +81,7 @@
     }
 
     public async onSubmit(): Promise<void> {
-      await createEnforcement(this.editedFacility);
+      await createEnforcement({...this.editedFacility});
       this.$emit(Events.FacilityUpdated, 0);
     }
 
