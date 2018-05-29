@@ -11,18 +11,20 @@ public class Enforcement {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "sender", nullable = false)
-    private String sender;
-
-    @Column(name = "receiver", nullable = false)
-    private String receiver;
-
     @Column(name= "started_at", nullable = false)
     private Date startedAt;
 
     @Column(name = "state", nullable = false)
     @Enumerated(EnumType.STRING)
     private EnforcementState state;
+
+    @OneToOne
+    @JoinColumn(name = "sender_id")
+    private Subject sender;
+
+    @OneToOne
+    @JoinColumn(name = "receiver_id")
+    private Subject receiver;
 
     @ManyToOne
     private Facility facility;
@@ -35,19 +37,19 @@ public class Enforcement {
         this.id = id;
     }
 
-    public String getSender() {
+    public Subject getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(Subject sender) {
         this.sender = sender;
     }
 
-    public String getReceiver() {
+    public Subject getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(String receiver) {
+    public void setReceiver(Subject receiver) {
         this.receiver = receiver;
     }
 
