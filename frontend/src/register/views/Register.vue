@@ -2,7 +2,7 @@
     <div>
         <nav class="level toolbar box">
             <div class="level-item">
-                <div class="title">Адмін | Автоматизована система виконавчого провадження</div>
+                <div class="title">Реєстр | Автоматизована система виконавчого провадження</div>
             </div>
         </nav>
         <div class="container">
