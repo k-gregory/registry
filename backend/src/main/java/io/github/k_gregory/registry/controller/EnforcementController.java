@@ -152,7 +152,7 @@ public class EnforcementController {
     public EnforcementResponse addEnforcement(@RequestBody EnS enS) {
         Facility f = fr.findById(enS.getFacilityId()).get();
         Subject r = sr.findById(enS.getReceiverId()).get();
-        Subject s = sr.findById(enS.getReceiverId()).get();
+        Subject s = sr.findById(enS.getSenderId()).get();
 
         Enforcement enforcement = new Enforcement();
         enforcement.setStartedAt(new Date());

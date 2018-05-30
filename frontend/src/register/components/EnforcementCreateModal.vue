@@ -8,7 +8,8 @@
                 <b-field label="Отримувач">
                     <b-select placeholder="Оберість отримувача" v-model="editedFacility.receiverId" required expanded>
                         <option
-                                v-for="option in receivers"
+                                v-for="option in subjects"
+                                v-if="option.id !== editedFacility.senderId"
                                 :value="option.id"
                                 :key="option.id">
                             {{ option.name }}
@@ -19,7 +20,8 @@
                 <b-field label="Стягувач">
                     <b-select placeholder="Оберість стягувача" v-model="editedFacility.senderId" required expanded>
                         <option
-                                v-for="option in senders"
+                                v-for="option in subjects"
+                                v-if="option.id !== editedFacility.receiverId"
                                 :value="option.id"
                                 :key="option.id">
                             {{ option.name }}
@@ -81,16 +83,8 @@
     }
 
     public async onSubmit(): Promise<void> {
-      await createEnforcement({...this.editedFacility});
+      await createEnforcement(this.editedFacility);
       this.$emit(Events.FacilityUpdated, 0);
-    }
-
-    public get senders() {
-        return this.subjects.filter(s => this.editedFacility.receiverId != s.id);
-    }
-
-    public get receivers() {
-        return this.subjects.filter(s => this.editedFacility.senderId != s.id);
     }
   }
 </script>
