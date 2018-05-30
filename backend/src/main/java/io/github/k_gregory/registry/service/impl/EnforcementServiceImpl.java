@@ -28,7 +28,7 @@ public class EnforcementServiceImpl implements EnforcementService {
     @Override
     public List<TopEnforcementDTO> listTopEnforcements() {
         Type type = new TypeToken<List<TopEnforcementDTO>>() {}.getType();
-        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("id"));
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "id"));
         List<Enforcement> topEnforcements = enforcements
                 .fetchAllWithFacility(pageRequest);
         return mapper.map(topEnforcements, type);
