@@ -64,7 +64,7 @@ public class FacilityServiceImpl implements FacilityService {
             Executant executant = RegistryApplicationException
                     .checked(foundExecutant, "Could not update facility. Executant was not found");
 
-            facility.setHead(executant);
+            //facility.setHead(executant);
         } else {
             facility.setHead(null);
         }
